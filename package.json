@@ -1,0 +1,16 @@
+{
+  "name": "cet-guide-backend",
+  "version": "1.0.0",
+  "description": "Lightweight backend and refreshed frontend for the CET campus guide app.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": [
+    "cet",
+    "campus-guide",
+    "node"
+  ],
+  "license": "UNLICENSED"
+}
