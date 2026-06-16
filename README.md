@@ -1,37 +1,28 @@
-# CET Campus Guide
+# CET Guide Backend
 
-Run the redesigned app from this folder:
+This folder contains a lightweight backend plus refreshed static pages for the CET campus guide.
 
-```powershell
-python server.py
-```
-
-Then open:
-
-```text
-http://127.0.0.1:8765
-```
-
-The app includes:
-
-- Spotify-style sign-up/login onboarding
-- HTTP-only session cookies
-- SQLite database integration
-- Password hashing with PBKDF2
-- API-backed guide content, locations and profiles
-- Six main navigation sections
-- Campus map only inside the Campus section
-- Admin editing protected by `CET_ADMIN_CODE`
-
-Default admin signup code:
-
-```text
-CETADMIN
-```
-
-For deployment, set a stronger code before starting the server:
+## Run
 
 ```powershell
-$env:CET_ADMIN_CODE="replace-with-a-secret"
-python server.py
+node server.js
 ```
+
+Then open `http://localhost:3000`.
+
+## API
+
+- `GET /api/health`
+- `GET /api/cet`
+- `GET /api/contacts`
+- `GET /api/hods`
+- `GET /api/facilities`
+- `GET /api/locations`
+- `GET /api/style-guide`
+- `POST /api/auth/register`
+- `POST /api/auth/login`
+- `POST /api/locations`
+- `PUT /api/locations/:id`
+- `DELETE /api/locations/:id`
+
+The curated source data lives in `data/cet-data.json`. It includes official CET contact, HOD, facility, vision/mission and campus navigation starter data from `cet.ac.in`.
