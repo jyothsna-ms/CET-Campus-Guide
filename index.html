@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CET Campus Guide</title>
+  <link rel="preconnect" href="https://unpkg.com">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main id="authView" class="auth-view">
+    <section class="auth-art">
+      <div class="brand-lockup">
+        <img src="https://commons.wikimedia.org/wiki/Special:Redirect/file/College%20of%20Engineering%20Trivandrum%20logo.png" alt="CET logo">
+        <span>CET Campus Guide</span>
+      </div>
+      <div>
+        <p class="eyebrow">College of Engineering Trivandrum</p>
+        <h1>Your calm start to campus.</h1>
+        <p class="hero-copy">Sign in once, then access academics, places, clubs, transport, hostel notes, contacts and the interactive map from one clean workspace.</p>
+      </div>
+    </section>
+    <section class="auth-panel">
+      <form id="authForm" class="auth-card">
+        <div class="segmented" role="tablist">
+          <button type="button" class="active" data-auth-mode="login">Log in</button>
+          <button type="button" data-auth-mode="signup">Sign up</button>
+        </div>
+        <h2 id="authTitle">Log in to continue</h2>
+        <p id="authSubtitle">Use your CET guide account to open the home page.</p>
+        <label id="nameField">Name<input id="nameInput" autocomplete="name" placeholder="Ananya Nair"></label>
+        <label>Email<input id="emailInput" type="email" autocomplete="email" placeholder="you@example.com" required></label>
+        <label>Password<input id="passwordInput" type="password" autocomplete="current-password" minlength="8" placeholder="At least 8 characters" required></label>
+        <label id="roleField">Role<select id="roleInput"><option value="student">Student</option><option value="admin">Admin</option></select></label>
+        <label id="adminCodeField">Admin code<input id="adminCodeInput" type="password" placeholder="Only for admin signup"></label>
+        <button class="primary" type="submit" id="authSubmit">Log in</button>
+        <button class="ghost" type="button" id="demoBtn">Create demo student</button>
+        <p class="status" id="authStatus"></p>
+      </form>
+    </section>
+  </main>
+
+  <main id="appView" class="app-view hidden">
+    <aside class="sidebar">
+      <div class="brand-lockup compact">
+        <img src="https://commons.wikimedia.org/wiki/Special:Redirect/file/College%20of%20Engineering%20Trivandrum%20logo.png" alt="CET logo">
+        <span>CET Guide</span>
+      </div>
+      <nav id="nav" aria-label="Main sections">
+        <button class="active" data-section="overview">Overview</button>
+        <button data-section="academics">Academics</button>
+        <button data-section="campus">Campus</button>
+        <button data-section="community">Community</button>
+        <button data-section="life">Student Life</button>
+        <button data-section="admin">Admin</button>
+      </nav>
+      <div class="user-box">
+        <strong id="userName">Student</strong>
+        <span id="userMeta">Signed in</span>
+        <button class="ghost" id="logoutBtn">Log out</button>
+      </div>
+    </aside>
+
+    <section class="content">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Home</p>
+          <h1 id="pageTitle">Overview</h1>
+        </div>
+        <div class="top-actions">
+          <input id="globalSearch" type="search" placeholder="Search the guide">
+          <button id="exportBtn" class="secondary">Export</button>
+        </div>
+      </header>
+
+      <section id="overview" class="section active">
+        <div class="home-hero">
+          <div>
+            <p class="eyebrow">Welcome back</p>
+            <h2 id="welcomeLine">Everything you need for CET, neatly grouped.</h2>
+            <p>Six sections keep the guide focused. The campus map opens only inside the Campus section, so the rest of the app stays fast and uncluttered.</p>
+          </div>
+        </div>
+        <div id="searchResults" class="results hidden"></div>
+        <div class="grid six" id="featureGrid"></div>
+        <article class="panel">
+          <h3>Fresher checklist</h3>
+          <div class="chips" id="checklist"></div>
+        </article>
+      </section>
+
+      <section id="academics" class="section">
+        <div class="section-head"><h2>Academics</h2><p>Semester subjects, notes, PYQs and study folder.</p></div>
+        <div class="toolbar"><select id="semesterSelect"></select><a id="driveLink" class="secondary link-button" target="_blank" rel="noopener">Open Drive</a></div>
+        <div id="semesterCards" class="grid"></div>
+      </section>
+
+      <section id="campus" class="section">
+        <div class="section-head"><h2>Campus</h2><p>Search places, view routes and open the interactive map only when needed.</p></div>
+        <div class="campus-layout">
+          <aside class="panel map-list">
+            <input id="locationSearch" type="search" placeholder="Search places">
+            <select id="categoryFilter"></select>
+            <div id="locationList" class="stack"></div>
+          </aside>
+          <div class="map-shell">
+            <div class="route-bar">
+              <select id="routeFrom"></select>
+              <select id="routeTo"></select>
+              <button id="routeBtn" class="secondary">Route</button>
+              <button id="fitBtn" class="ghost">Fit</button>
+            </div>
+            <div id="map" class="map"></div>
+            <p id="routeSummary" class="map-summary">Select two locations to estimate a campus route.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="community" class="section">
+        <div class="section-head"><h2>Community</h2><p>Clubs, events, senior advice and campus culture.</p></div>
+        <div class="grid two">
+          <article class="panel"><h3>Clubs</h3><p id="clubsText"></p><a id="whatsappLink" class="link-button secondary hidden" target="_blank" rel="noopener">Open WhatsApp group</a></article>
+          <article class="panel"><h3>Events</h3><ul id="eventsList"></ul></article>
+          <article class="panel wide"><h3>Senior advice</h3><ul id="adviceList"></ul></article>
+        </div>
+      </section>
+
+      <section id="life" class="section">
+        <div class="section-head"><h2>Student Life</h2><p>Library, hostel, transport and contacts.</p></div>
+        <div class="grid two">
+          <article class="panel"><h3>Library</h3><strong id="libraryTiming"></strong><p id="libraryNotes"></p></article>
+          <article class="panel"><h3>Transport</h3><p id="transportText"></p></article>
+          <article class="panel"><h3>Hostel</h3><p id="hostelText"></p></article>
+          <article class="panel"><h3>Contacts</h3><p id="contactsText"></p></article>
+        </div>
+      </section>
+
+      <section id="admin" class="section">
+        <div class="section-head"><h2>Admin</h2><p>Authenticated admin tools for guide data and map locations.</p></div>
+        <div id="adminLocked" class="panel locked">Admin access is required to edit shared content. Sign up or log in with an admin account.</div>
+        <div id="adminTools" class="grid two hidden">
+          <article class="panel">
+            <h3>Guide content</h3>
+            <label>Library timing<input id="editLibraryTiming"></label>
+            <label>Library notes<textarea id="editLibraryNotes"></textarea></label>
+            <label>Faculty contacts<textarea id="editFaculty"></textarea></label>
+            <label>Clubs<textarea id="editClubs"></textarea></label>
+            <button id="saveGuideBtn" class="primary">Save guide</button>
+          </article>
+          <article class="panel">
+            <h3>Map location</h3>
+            <label>Name<input id="editLocationName"></label>
+            <label>Category<input id="editLocationCategory"></label>
+            <label>Latitude<input id="editLocationLat" type="number" step="0.000001"></label>
+            <label>Longitude<input id="editLocationLng" type="number" step="0.000001"></label>
+            <label>Note<textarea id="editLocationNote"></textarea></label>
+            <button id="saveLocationBtn" class="primary">Save selected location</button>
+            <button id="newLocationBtn" class="ghost">New location</button>
+            <p id="adminStatus" class="status"></p>
+          </article>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="api-client.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,158 @@
+{
+  "meta": {
+    "college": "College of Engineering Trivandrum",
+    "shortName": "CET",
+    "tagline": "Action is superior to inaction",
+    "officialSite": "https://www.cet.ac.in/",
+    "lastCurated": "2026-06-09",
+    "sources": [
+      "https://www.cet.ac.in/",
+      "https://www.cet.ac.in/contact-us/",
+      "https://www.cet.ac.in/head-of-departments/",
+      "https://www.cet.ac.in/central-computing-facility/"
+    ]
+  },
+  "brand": {
+    "logoUrl": "https://commons.wikimedia.org/wiki/Special:Redirect/file/College%20of%20Engineering%20Trivandrum%20logo.png",
+    "palette": {
+      "heritageBlue": "#083E75",
+      "deepHeritageBlue": "#052B54",
+      "champagneGold": "#D6B25E",
+      "editorialCream": "#F6EFE1",
+      "paper": "#FFFDF7",
+      "ink": "#162033",
+      "mutedSlate": "#657286",
+      "terracotta": "#B9573F",
+      "campusGreen": "#2E7353"
+    },
+    "type": {
+      "display": "Georgia, 'Times New Roman', serif",
+      "ui": "Inter, Segoe UI, Arial, sans-serif"
+    }
+  },
+  "institution": {
+    "vision": "National Level Excellence and International Visibility in Every Facet of Engineering Research and Education.",
+    "mission": [
+      "To facilitate quality transformative education in Engineering and Management.",
+      "To foster innovations in Technology and its application for meeting global challenges.",
+      "To pursue and disseminate Quality Research.",
+      "To equip, enrich and transform students to be Responsible Professionals for better service to humanity."
+    ],
+    "accreditation": [
+      "All B. Tech Programs are accredited by the National Board of Accreditation till 31-12-2028.",
+      "M. Tech Courses are accredited by the National Board of Accreditation."
+    ]
+  },
+  "contacts": [
+    {
+      "name": "Principal Office",
+      "role": "Primary office contact",
+      "phone": "0471 2998310",
+      "email": "principal@cet.ac.in",
+      "category": "Administration"
+    },
+    {
+      "name": "College Address",
+      "role": "Visitor and postal address",
+      "phone": "0471 2598370",
+      "email": "principal@cet.ac.in",
+      "category": "Administration",
+      "address": "College of Engineering Trivandrum, Engineering College P.O, Sreekaryam, Thiruvananthapuram, Kerala, PIN 695016"
+    },
+    {
+      "name": "Hostel Office",
+      "role": "Hostel support",
+      "phone": "0471 2998302",
+      "category": "Hostel"
+    },
+    {
+      "name": "Ladies Hostel Matron",
+      "role": "Ladies hostel support",
+      "phone": "0471 2998354",
+      "category": "Hostel"
+    },
+    {
+      "name": "Ladies Hostel Security",
+      "role": "LH security",
+      "phone": "0471 2998334",
+      "category": "Emergency"
+    },
+    {
+      "name": "Men's Hostel Security",
+      "role": "MH security",
+      "phone": "0471 2998473",
+      "category": "Emergency"
+    },
+    {
+      "name": "College Gate Security",
+      "role": "Visitor/security help",
+      "phone": "0471 2998380",
+      "category": "Emergency"
+    }
+  ],
+  "hods": [
+    {"name": "Dr. Priyadarsini R. S", "role": "HOD Civil Engineering", "phone": "+91 9495401058"},
+    {"name": "Dr. Karthika A. S", "role": "HOD Mechanical Engineering", "phone": "+91 9349751428"},
+    {"name": "Dr. Arun Kishore W C", "role": "HOD Electrical Engineering", "phone": "+91 9496254061"},
+    {"name": "Dr. Haris P A", "role": "HOD Electronics and Communication", "phone": "+91 9446048940"},
+    {"name": "Dr. Ajeesh Ramanujan", "role": "HOD Computer Science", "phone": "+91 9495135213"},
+    {"name": "Dr. Manju G Nair", "role": "HOD Architecture", "phone": "+91 9884402791"},
+    {"name": "Dr. Liji P. I", "role": "HOD MCA", "phone": "+91 9446177517"},
+    {"name": "Dr. Suresh Subramoniam", "role": "HOD MBA", "phone": "0471 2515588, +91 9496749099"}
+  ],
+  "facilities": [
+    {
+      "name": "Central Computing Facility",
+      "category": "Labs",
+      "summary": "Shared computing hub with server room, three labs, high-end servers, 200+ computers, printers, scanners, projectors and 1Gbps NKN connectivity.",
+      "hours": "9:00 AM to 9:00 PM on working days"
+    },
+    {
+      "name": "Central Technical Library",
+      "category": "Library",
+      "summary": "Campus library and reading reference point for freshers."
+    },
+    {
+      "name": "Civil Engineering Laboratories",
+      "category": "Labs",
+      "summary": "Includes soil mechanics, highway, traffic, strength of materials, survey, environmental, structural, hydraulics, coastal, hydroinformatics, concrete and transportation research facilities."
+    },
+    {
+      "name": "Center for Sustainable Development",
+      "category": "Research",
+      "summary": "CET centre focused on sustainable development goals, research collaboration and industry uptake."
+    }
+  ],
+  "locations": [
+    {"id": "campus-center", "name": "CET Campus Reference Point", "category": "Transport", "icon": "Transport", "lat": 8.5441425, "lng": 76.9043013, "note": "Official campus reference point for College of Engineering Trivandrum, Sreekaryam."},
+    {"id": "administrative-building", "name": "Administrative Building / Main Block", "category": "Admin", "icon": "Admin", "lat": 8.5457658, "lng": 76.9063163, "note": "Main office and principal office zone for certificates, visitor help and first-day reporting."},
+    {"id": "central-computing-facility", "name": "Central Computing Facility", "category": "Academic", "icon": "Academic", "lat": 8.5452, "lng": 76.9059, "note": "CCF: server room, labs and shared computing resources. Verify exact entrance locally."},
+    {"id": "central-technical-library", "name": "Central Technical Library", "category": "Library", "icon": "Library", "lat": 8.5454638, "lng": 76.9065954, "note": "Central library and reading facilities."},
+    {"id": "computer-science", "name": "Department of Computer Science", "category": "Academic", "icon": "Academic", "lat": 8.5457443, "lng": 76.903857, "note": "CSE department block."},
+    {"id": "civil-engineering-ce1", "name": "Department of Civil Engineering", "category": "Academic", "icon": "Academic", "lat": 8.5449414, "lng": 76.9050314, "note": "Civil Engineering block and lab zone."},
+    {"id": "mechanical-department", "name": "Mechanical Engineering Department", "category": "Academic", "icon": "Academic", "lat": 8.5458347, "lng": 76.9070533, "note": "Mechanical department and workshop side."},
+    {"id": "ece-department", "name": "Electronics & Communication Department", "category": "Academic", "icon": "Academic", "lat": 8.5449032, "lng": 76.9053976, "note": "ECE department block."},
+    {"id": "eee-department", "name": "Electrical & Electronics Department", "category": "Academic", "icon": "Academic", "lat": 8.5454024, "lng": 76.90782, "note": "EEE department zone."},
+    {"id": "mens-hostel", "name": "Men's Hostel", "category": "Hostel", "icon": "Hostel", "lat": 8.5430759, "lng": 76.9035866, "note": "Men's hostel area. Use hostel office/security contacts for urgent needs."},
+    {"id": "ladies-hostel-main", "name": "Ladies Hostel", "category": "Hostel", "icon": "Hostel", "lat": 8.5474275, "lng": 76.9070504, "note": "Ladies hostel main area. Use LH security and matron contacts for urgent needs."},
+    {"id": "engineering-college-bus-stop", "name": "Engineering College Bus Stop", "category": "Transport", "icon": "Transport", "lat": 8.5466721, "lng": 76.9054082, "note": "Nearest bus stop landmark."}
+  ],
+  "roles": [
+    {
+      "title": "Brand & Design Lead",
+      "responsibilities": ["College logo integration", "Heritage blue/champagne gold/editorial cream palette", "Typography and component style guide"]
+    },
+    {
+      "title": "Map & Navigation Dev",
+      "responsibilities": ["Interactive map development", "Landmark validation", "Route and Google Maps link checks"]
+    },
+    {
+      "title": "Feature Implementation Dev",
+      "responsibilities": ["Directory, labs, emergency and academic screens", "Navigation routing", "Backend API integration"]
+    },
+    {
+      "title": "Content Migration Lead",
+      "responsibilities": ["Official CET content migration", "Source tracking", "Periodic data review"]
+    }
+  ]
+}

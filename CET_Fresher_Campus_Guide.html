@@ -1,0 +1,1499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>College of Engineering Trivandrum Fresher Guide</title>
+<style>
+:root{
+  --bg:#f4f7fb;
+  --panel:#ffffff;
+  --text:#182231;
+  --muted:#627083;
+  --line:#d9e3ee;
+  --primary:#0b7285;
+  --primary-dark:#075361;
+  --accent:#e05b5b;
+  --gold:#f4b740;
+  --leaf:#2f9e44;
+  --warn:#b45309;
+  --danger:#b42318;
+  --radius:8px;
+  --shadow:0 16px 42px rgba(15,32,48,.14);
+  --campus-story:url("campus-story.jpeg");
+  --campus-building:url("campus-building.jpeg");
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  min-height:100vh;
+  font-family:Inter,Segoe UI,Arial,sans-serif;
+  color:var(--text);
+  background:
+    radial-gradient(circle at top left, rgba(244,183,64,.22), transparent 34%),
+    radial-gradient(circle at 90% 12%, rgba(224,91,91,.16), transparent 30%),
+    linear-gradient(rgba(247,251,255,.88),rgba(247,251,255,.88)),
+    var(--campus-building) center top/cover fixed no-repeat,
+    linear-gradient(135deg,#f7fbff 0%,#edf7f6 48%,#fff7ee 100%);
+}
+button,input,select,textarea{font:inherit}
+button,.action-link{
+  border:0;
+  border-radius:var(--radius);
+  padding:10px 12px;
+  background:var(--primary);
+  color:#fff;
+  cursor:pointer;
+  font-weight:800;
+  text-decoration:none;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+}
+button:hover,.action-link:hover{background:var(--primary-dark)}
+.btn-light{background:#edf5f8;color:var(--primary);border:1px solid #cfe3ec}
+.btn-light:hover{background:#dcecf2}
+.btn-ghost{background:#fff;color:#3c5064;border:1px solid var(--line)}
+.btn-ghost:hover{background:#f6f8fa;color:var(--text)}
+.app{min-height:100vh;display:grid;grid-template-rows:auto 1fr}
+.topbar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  padding:14px 18px;
+  background:rgba(255,255,255,.86);
+  border-bottom:1px solid var(--line);
+  box-shadow:0 8px 28px rgba(15,32,48,.08);
+  backdrop-filter:blur(14px);
+}
+.brand{display:flex;align-items:center;gap:12px;min-width:0}
+.brand-logo{
+  width:54px;
+  height:54px;
+  border-radius:8px;
+  object-fit:contain;
+  background:#fff;
+  border:1px solid var(--line);
+  box-shadow:0 8px 18px rgba(16,35,52,.1);
+  padding:4px;
+}
+h1{margin:0;font-size:20px;line-height:1.2}
+.subtitle{font-size:13px;color:var(--muted);margin-top:2px}
+.top-actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.layout{
+  display:grid;
+  grid-template-columns:260px 1fr;
+  min-height:0;
+}
+.nav{
+  padding:14px;
+  background:rgba(248,251,253,.76);
+  border-right:1px solid var(--line);
+  overflow:auto;
+  backdrop-filter:blur(12px);
+}
+.nav button{
+  width:100%;
+  justify-content:flex-start;
+  margin-bottom:8px;
+  background:#fff;
+  color:#34495e;
+  border:1px solid var(--line);
+}
+.nav button.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+.main{
+  padding:18px;
+  overflow:auto;
+}
+.section{display:none}
+.section.active{display:block}
+.home-hero{
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  min-height:390px;
+  margin-bottom:14px;
+  padding:26px;
+  border-radius:var(--radius);
+  border:1px solid rgba(255,255,255,.7);
+  color:#fff;
+  background:
+    linear-gradient(90deg,rgba(7,83,97,.96),rgba(11,114,133,.84) 44%,rgba(24,34,49,.26)),
+    linear-gradient(0deg,rgba(24,34,49,.35),rgba(24,34,49,.08)),
+    var(--campus-building) right center/cover no-repeat,
+    linear-gradient(45deg,rgba(244,183,64,.45),transparent);
+  box-shadow:var(--shadow);
+  overflow:hidden;
+}
+.home-hero h2{
+  margin:0 0 10px;
+  max-width:720px;
+  font-size:46px;
+  line-height:1.05;
+  letter-spacing:0;
+}
+.home-hero p{
+  margin:0;
+  max-width:700px;
+  color:rgba(255,255,255,.88);
+  font-size:16px;
+  line-height:1.55;
+}
+.home-hero-logo{
+  display:none;
+}
+.home-hero-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.home-hero .action-link,
+.home-hero button{background:#fff;color:var(--primary-dark)}
+.home-hero .btn-light{background:rgba(255,255,255,.16);color:#fff;border-color:rgba(255,255,255,.5)}
+.home-hero .action-link:hover,
+.home-hero button:hover{background:#fff4da;color:#3a2a04}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.grid-2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.panel{
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  box-shadow:0 8px 24px rgba(20,38,55,.06);
+  padding:14px;
+}
+.panel-title{
+  margin:0 0 10px;
+  font-size:14px;
+  font-weight:900;
+  text-transform:uppercase;
+  color:#3c5064;
+  letter-spacing:.04em;
+}
+.big-number{font-size:28px;font-weight:900;color:var(--primary)}
+.muted{color:var(--muted);font-size:13px;line-height:1.45}
+.field{display:grid;gap:6px;margin-bottom:10px}
+.field label{font-size:12px;color:var(--muted);font-weight:800}
+.password-row{display:grid;grid-template-columns:1fr auto;gap:8px}
+.password-row button{white-space:nowrap}
+input,select,textarea{
+  width:100%;
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  background:#fff;
+  color:var(--text);
+  padding:10px 11px;
+  outline:none;
+}
+textarea{resize:vertical;min-height:78px}
+input:focus,select:focus,textarea:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(5,102,141,.13)}
+.card-list{display:grid;gap:10px}
+.item{
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding:11px;
+  background:#fff;
+}
+.item h3{margin:0 0 6px;font-size:15px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.chip{
+  display:inline-flex;
+  align-items:center;
+  border-radius:999px;
+  background:#eef3f7;
+  color:#34495e;
+  padding:4px 8px;
+  font-size:12px;
+  font-weight:800;
+}
+.timeline-table{
+  width:100%;
+  border-collapse:collapse;
+  margin-top:8px;
+  font-size:13px;
+}
+.timeline-table th,.timeline-table td{
+  border:1px solid var(--line);
+  padding:9px;
+  text-align:left;
+  vertical-align:top;
+}
+.timeline-table th{background:#f8fbfd;color:#3c5064;font-weight:900}
+.idea-list{display:grid;gap:8px;margin:0;padding:0;list-style:none}
+.idea-list li{
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding:9px;
+  background:#f8fbfd;
+  font-size:13px;
+}
+.club-category h3{margin:0 0 8px;font-size:15px}
+.club-category{min-height:100%}
+.official-club-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.official-club-card h3{margin:0 0 6px;font-size:14px}
+.official-club-card .muted{font-size:12px}
+.sem-card{cursor:pointer}
+.sem-card.active{border-color:var(--primary);box-shadow:0 0 0 3px rgba(5,102,141,.12);background:#edf8fb}
+.quick-actions{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:12px}
+.search-panel{margin-bottom:12px}
+.search-row{display:grid;grid-template-columns:1fr auto;gap:10px}
+.search-results{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:10px;
+  margin-top:10px;
+}
+.search-result{
+  text-align:left;
+  justify-content:flex-start;
+  align-items:flex-start;
+  min-height:96px;
+  flex-direction:column;
+  background:#fff;
+  color:var(--text);
+  border:1px solid var(--line);
+  font-weight:700;
+}
+.search-result:hover{background:#fff8ea;color:var(--primary-dark)}
+.search-result strong{font-size:14px}
+.search-result span{font-size:12px;line-height:1.4;color:var(--muted);font-weight:600}
+.source-note{font-size:12px;color:var(--muted);line-height:1.45;margin-top:8px}
+.notice{
+  padding:11px;
+  border:1px solid #fed7aa;
+  background:#fff7ed;
+  color:#9a3412;
+  border-radius:var(--radius);
+  font-size:13px;
+  line-height:1.45;
+}
+.save-row{display:flex;gap:8px;flex-wrap:wrap}
+.auth-badge{
+  display:inline-flex;
+  align-items:center;
+  border-radius:999px;
+  padding:8px 10px;
+  background:#ecfbf8;
+  color:#0f766e;
+  border:1px solid #c9f3ec;
+  font-size:12px;
+  font-weight:900;
+}
+.auth-badge.locked{background:#fff7ed;color:#9a3412;border-color:#fed7aa}
+.auth-hero{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) 420px;
+  gap:16px;
+  align-items:stretch;
+}
+.welcome-panel{
+  background:
+    linear-gradient(180deg,rgba(255,255,255,.96),rgba(255,249,239,.92)),
+    #fff;
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  padding:22px;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  min-height:420px;
+}
+.welcome-logo{
+  width:min(420px,100%);
+  height:auto;
+  display:block;
+  margin-bottom:22px;
+  border-radius:var(--radius);
+  border:1px solid var(--line);
+  background:#fff;
+  padding:8px;
+}
+.welcome-kicker{
+  font-size:12px;
+  font-weight:900;
+  color:var(--accent);
+  text-transform:uppercase;
+  letter-spacing:.06em;
+  margin-bottom:10px;
+}
+.welcome-title{font-size:34px;line-height:1.08;margin:0 0 10px}
+.welcome-copy{color:var(--muted);font-size:15px;line-height:1.55;max-width:650px}
+.role-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:20px}
+.role-card{
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  background:#f8fbfd;
+  padding:12px;
+}
+.role-card strong{display:block;margin-bottom:5px}
+.auth-panel{box-shadow:var(--shadow)}
+.lock-note{
+  padding:10px;
+  border-radius:var(--radius);
+  border:1px solid var(--line);
+  background:#f8fbfd;
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.4;
+  margin-bottom:10px;
+}
+.admin-only.is-locked{opacity:.68}
+.admin-only.is-locked input,
+.admin-only.is-locked textarea{background:#f6f8fa;color:#637083}
+.nav button.requires-login.is-locked{
+  opacity:.5;
+  cursor:not-allowed;
+}
+a{color:var(--primary);font-weight:800;text-decoration:none}
+@media (max-width:980px){
+  .layout{grid-template-columns:1fr}
+  .nav{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;border-right:0;border-bottom:1px solid var(--line)}
+  .nav button{margin:0}
+  .auth-hero{grid-template-columns:1fr}
+  .grid,.grid-2,.quick-actions,.search-results,.official-club-grid{grid-template-columns:1fr 1fr}
+}
+@media (max-width:620px){
+  .topbar{align-items:flex-start;flex-direction:column}
+  .top-actions,.quick-actions,.grid,.grid-2,.nav,.role-grid,.search-row,.search-results,.official-club-grid{grid-template-columns:1fr;width:100%}
+  .welcome-title{font-size:28px}
+  .home-hero{padding:20px}
+  .home-hero h2{font-size:31px}
+  .top-actions a,.top-actions button{width:100%}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="topbar">
+    <div class="brand">
+      <img class="brand-logo" src="logo.jpeg" alt="College of Engineering logo">
+      <div>
+        <h1>College of Engineering Trivandrum Fresher Guide</h1>
+        <div class="subtitle">Campus essentials, academic help, contacts, clubs, hostel, library and map access</div>
+      </div>
+    </div>
+    <div class="top-actions">
+      <span class="auth-badge locked" id="authBadge">Guest view</span>
+      <a class="action-link btn-light" href="index.html">Home</a>
+      <a class="action-link btn-light" href="CET_Guide_App.html">Guide App</a>
+      <a class="action-link" id="mapLink" href="CET_Campus_Interactive_Map_Pro.html">Open Campus Map</a>
+      <button class="btn-light" id="exportBtn">Export Guide</button>
+      <button class="btn-ghost" id="resetBtn">Reset Guide</button>
+    </div>
+  </header>
+
+  <main class="layout">
+    <nav class="nav" aria-label="Guide sections">
+      <button class="active" data-section="home">Home</button>
+      <button data-section="academic">Academic Help</button>
+      <button data-section="scheme">KTU 2024 Scheme</button>
+      <button data-section="places">Campus Places</button>
+      <button data-section="clubs">Clubs</button>
+      <button data-section="advice">Senior Advice</button>
+      <button data-section="events">Events</button>
+      <button data-section="transport">Transport</button>
+      <button data-section="hostel">Hostel</button>
+      <button data-section="contacts">Contacts</button>
+      <button data-section="library">Library</button>
+      <button data-section="editor">Edit Details</button>
+      <button data-section="auth">Sign Up / Login</button>
+    </nav>
+
+    <div class="main">
+      <section id="home" class="section active">
+        <div class="home-hero">
+          <div>
+            <div class="welcome-kicker">College of Engineering Trivandrum</div>
+            <h2>Back to campus, with everything in reach</h2>
+            <p>A fresher-friendly home for semester help, must-know places, club links, hostel contacts, library notes and the campus map, designed to continue from the guide app first page.</p>
+            <div class="home-hero-actions">
+              <button data-jump="academic">Explore Guide</button>
+              <a class="action-link btn-light" href="index.html">App Home</a>
+              <a class="action-link btn-light" href="CET_Campus_Interactive_Map_Pro.html">Open Map</a>
+              <button class="btn-light" data-jump="contacts">Key Contacts</button>
+            </div>
+          </div>
+        </div>
+        <div class="quick-actions">
+          <button data-jump="academic">Sem-wise Subjects</button>
+          <button data-jump="places">Find Places</button>
+          <button data-jump="contacts">Emergency Contacts</button>
+          <a class="action-link btn-light" href="CET_Campus_Interactive_Map_Pro.html">Go To Map</a>
+        </div>
+        <div class="panel search-panel">
+          <div class="panel-title">Search The Guide</div>
+          <div class="search-row">
+            <input id="campusSearch" type="search" placeholder="Search library, canteen, CS department, hostel, bus, clubs...">
+            <button class="btn-light" id="clearSearchBtn" type="button">Clear</button>
+          </div>
+          <div class="search-results" id="searchResults"></div>
+        </div>
+        <div class="grid">
+          <div class="panel">
+            <div class="panel-title">Semesters</div>
+            <div class="big-number">S1-S8</div>
+            <div class="muted">Open Academic Help to edit subjects semester-wise and attach study notes.</div>
+          </div>
+          <div class="panel">
+            <div class="panel-title">Study Folder</div>
+            <div class="muted"><a id="homeDriveLink" href="#" target="_blank" rel="noopener">Open Google Drive materials</a></div>
+          </div>
+          <div class="panel">
+            <div class="panel-title">Campus Map</div>
+            <div class="muted">The interactive map is now bundled beside this guide, so the link opens from the same folder.</div>
+          </div>
+        </div>
+        <div class="panel" style="margin-top:12px">
+          <div class="panel-title">Fresher Checklist</div>
+          <div class="chips" id="checklist"></div>
+        </div>
+      </section>
+
+      <section id="academic" class="section">
+        <div class="grid-2">
+          <div class="panel admin-only">
+            <div class="panel-title">Semester Editor</div>
+            <div class="lock-note" data-lock-note>Login as admin to edit semester subjects and study links. Students can view the saved semester cards.</div>
+            <div class="field">
+              <label for="semesterSelect">Semester</label>
+              <select id="semesterSelect"></select>
+            </div>
+            <div class="field">
+              <label for="subjectInput">Subjects</label>
+              <textarea id="subjectInput" placeholder="One subject per line"></textarea>
+            </div>
+            <div class="field">
+              <label for="helpInput">Academic help notes</label>
+              <textarea id="helpInput" placeholder="Module notes, PYQs, lab help, mentor names, useful links..."></textarea>
+            </div>
+            <div class="field">
+              <label for="driveInput">Study materials folder</label>
+              <input id="driveInput" type="url">
+            </div>
+            <button id="saveAcademicBtn">Save Semester</button>
+          </div>
+          <div class="panel">
+            <div class="panel-title">Semester-wise Subjects</div>
+            <div id="semesterCards" class="card-list"></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="scheme" class="section">
+        <div class="grid-2">
+          <div class="panel">
+            <div class="panel-title">First Year Structure</div>
+            <div class="item">
+              <h3>S1 - Common Foundation</h3>
+              <p class="muted">Common foundation semester for all branches. Exact science slot can vary by group and college timetable.</p>
+              <div class="chips">
+                <span class="chip">Engineering Mathematics I</span>
+                <span class="chip">Engineering Physics / Chemistry</span>
+                <span class="chip">Engineering Mechanics</span>
+                <span class="chip">Basics of Civil & Mechanical</span>
+                <span class="chip">Basics of Electrical & Electronics</span>
+                <span class="chip">Programming in C / Computing</span>
+                <span class="chip">Engineering Graphics</span>
+                <span class="chip">Life Skills / Communication</span>
+              </div>
+              <p class="muted">Purpose: mathematics, science, engineering drawing, computing and basic engineering exposure.</p>
+            </div>
+            <div class="item" style="margin-top:10px">
+              <h3>S2 - Common Continuation</h3>
+              <p class="muted">Common continuation semester with group-based science/electronics/electrical distribution.</p>
+              <div class="chips">
+                <span class="chip">Engineering Mathematics II</span>
+                <span class="chip">Applied Physics / Chemistry</span>
+                <span class="chip">Electronics / Electrical Systems</span>
+                <span class="chip">Programming / Data Structures Basics</span>
+                <span class="chip">Environmental Science</span>
+                <span class="chip">Workshop / Engineering Practice</span>
+                <span class="chip">Design Thinking / Ethics</span>
+              </div>
+              <p class="muted">Purpose: strengthen fundamentals before branch-specific subjects begin from S3.</p>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel-title">Branch Groups</div>
+            <div class="card-list">
+              <div class="item"><h3>Group A - Computing & AI</h3><p class="muted">CSE, IT, AI & Data Science, AI & ML, Cyber Security and related computing branches.</p></div>
+              <div class="item"><h3>Group B - Electronics & Electrical</h3><p class="muted">EEE, ECE, Applied Electronics & Instrumentation, Electronics & Computer, VLSI, embedded and communication branches.</p></div>
+              <div class="item"><h3>Group C - Civil / Chemical / Bio</h3><p class="muted">Civil, Civil & Environmental, Chemical, Food Technology, Biotechnology and related physical-science branches.</p></div>
+              <div class="item"><h3>Group D - Mechanical & Production</h3><p class="muted">Mechanical, Automobile, Mechatronics, Production, Industrial, Naval Architecture, Metallurgy and Materials branches.</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="grid-2" style="margin-top:12px">
+          <div class="panel">
+            <div class="panel-title">S3-S8 Roadmap</div>
+            <div class="card-list">
+              <div class="item"><h3>S3-S4: Branch Entry</h3><p class="muted">Core branch subjects begin. Expect stronger theory plus labs, assignments and microprojects.</p></div>
+              <div class="item"><h3>S5-S6: Advanced Core</h3><p class="muted">Specialized subjects, professional electives, labs and mini-project work become more important.</p></div>
+              <div class="item"><h3>S7-S8: Final Year</h3><p class="muted">Major project, seminar, internship or industry training, electives and placement preparation take priority.</p></div>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel-title">Branch Core Examples</div>
+            <div class="chips">
+              <span class="chip">Group A: DSA</span>
+              <span class="chip">Group A: DBMS</span>
+              <span class="chip">Group A: OS / CN</span>
+              <span class="chip">Group B: Circuits</span>
+              <span class="chip">Group B: Signals</span>
+              <span class="chip">Group C: Structures</span>
+              <span class="chip">Group C: Fluid Mechanics</span>
+              <span class="chip">Group D: Thermodynamics</span>
+              <span class="chip">Group D: Machine Design</span>
+              <span class="chip">Final Year: Project</span>
+            </div>
+            <p class="source-note">Use these as orientation examples. Exact semester-wise subject names must be checked against the official KTU 2024 curriculum and department course selection.</p>
+          </div>
+        </div>
+        <div class="grid-2" style="margin-top:12px">
+          <div class="panel">
+            <div class="panel-title">Academic Timing Pattern</div>
+            <table class="timeline-table">
+              <thead><tr><th>Semester</th><th>Duration</th><th>Stage</th></tr></thead>
+              <tbody>
+                <tr><td>S1</td><td>6 months</td><td>Foundation 1</td></tr>
+                <tr><td>S2</td><td>6 months</td><td>Foundation 2</td></tr>
+                <tr><td>S3-S6</td><td>4 semesters</td><td>Core branch subjects</td></tr>
+                <tr><td>S7</td><td>1 semester</td><td>Internship / advanced electives</td></tr>
+                <tr><td>S8</td><td>1 semester</td><td>Project + seminar</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="panel">
+            <div class="panel-title">Evaluation Pattern</div>
+            <ul class="idea-list">
+              <li>Internal exam: 2 series tests per semester</li>
+              <li>Assignment / microproject: continuous evaluation</li>
+              <li>End Semester Exam (ESE): final exam</li>
+              <li>Lab exams: end of semester</li>
+              <li>Results usually arrive 1-2 months after exams</li>
+            </ul>
+          </div>
+        </div>
+        <div class="grid-2" style="margin-top:12px">
+          <div class="panel">
+            <div class="panel-title">Key Ideas</div>
+            <div class="chips">
+              <span class="chip">More practical learning</span>
+              <span class="chip">Programming early from S2</span>
+              <span class="chip">Microprojects</span>
+              <span class="chip">Industry-oriented subjects</span>
+              <span class="chip">Specialization after S2</span>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel-title">Useful Next Resources</div>
+            <div class="chips">
+              <span class="chip">Official KTU curriculum link</span>
+              <span class="chip">Module-wise notes</span>
+              <span class="chip">Previous year questions</span>
+              <span class="chip">Credit + GPA calculator</span>
+              <span class="chip">Lab record templates</span>
+              <span class="chip">YouTube playlists</span>
+            </div>
+            <p class="source-note">Source direction: APJ Abdul Kalam Technological University publishes the official 2024 B.Tech curriculum by group; CSE is listed under Group A. Always prefer that over copied notes sites for final academic wording.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="places" class="section">
+        <div class="grid">
+          <div class="panel">
+            <div class="panel-title">Map Access</div>
+            <p class="muted">Use the existing campus map for marker navigation and routes.</p>
+            <a class="action-link" href="CET_Campus_Interactive_Map_Pro.html">Open Interactive Map</a>
+          </div>
+          <div class="panel">
+            <div class="panel-title">Must Find First</div>
+            <div class="chips">
+              <span class="chip">Main Block</span>
+              <span class="chip">Department Office</span>
+              <span class="chip">Library</span>
+              <span class="chip">Canteen</span>
+              <span class="chip">College Office</span>
+              <span class="chip">Security Gate</span>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel-title">Office Tip</div>
+            <p class="muted">For forms, certificates, ID issues and fee receipts, first ask your department office or staff advisor before going elsewhere.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="clubs" class="section">
+        <div class="panel" style="margin-bottom:12px">
+          <div class="panel-title">Major CET Clubs Directory</div>
+          <p class="muted">Browse clubs by interest area. The official 2025-26 CET Club Platform directory is included below with student coordinator names.</p>
+          <p class="source-note"><a href="https://clubs.cet.ac.in/clubs/" target="_blank" rel="noopener">Open official CET Club Platform</a></p>
+        </div>
+        <div class="panel" style="margin-bottom:12px">
+          <div class="panel-title">Official CET Club Platform List</div>
+          <div id="officialClubs" class="official-club-grid"></div>
+        </div>
+        <div class="grid">
+          <div class="panel club-category">
+            <h3>Technical Clubs</h3>
+            <div class="chips">
+              <span class="chip">AeroCET</span>
+              <span class="chip">RoboCET</span>
+              <span class="chip">VeloCET</span>
+              <span class="chip">SAEINDIA CET</span>
+              <span class="chip">IEEE Student Branch CET</span>
+              <span class="chip">ISTE Student Chapter CET</span>
+              <span class="chip">IEDC CET</span>
+              <span class="chip">GDSC CET</span>
+              <span class="chip">Innovation Centre CET</span>
+              <span class="chip">SCORE@CET</span>
+              <span class="chip">Coders Club</span>
+              <span class="chip">TinkerHub CET</span>
+              <span class="chip">IGS CET</span>
+              <span class="chip">ICI CET Student Chapter</span>
+              <span class="chip">ASCE CET</span>
+              <span class="chip">Internship Cell CET</span>
+              <span class="chip">IPR Cell</span>
+            </div>
+          </div>
+          <div class="panel club-category">
+            <h3>Aerospace / EV / Energy</h3>
+            <div class="chips">
+              <span class="chip">AeroCET</span>
+              <span class="chip">VeloCET</span>
+              <span class="chip">Folium Eco-Drive</span>
+              <span class="chip">ENCON Club</span>
+              <span class="chip">AstroCET</span>
+            </div>
+          </div>
+          <div class="panel club-category">
+            <h3>Arts, Media & Culture</h3>
+            <div class="chips">
+              <span class="chip">CET Film Society</span>
+              <span class="chip">CET Shutterbugs</span>
+              <span class="chip">CETunes</span>
+              <span class="chip">Drama / Theatre</span>
+              <span class="chip">Dance Clubs</span>
+              <span class="chip">Music Clubs</span>
+              <span class="chip">Malayalam Club CET</span>
+              <span class="chip">LitSoc CET</span>
+              <span class="chip">CETalks</span>
+            </div>
+          </div>
+          <div class="panel club-category">
+            <h3>Academic & Knowledge</h3>
+            <div class="chips">
+              <span class="chip">CET Quiz Club</span>
+              <span class="chip">Mathletes CET</span>
+              <span class="chip">CET Debate / MUN</span>
+              <span class="chip">Under 25 CET</span>
+              <span class="chip">CET BBC Club</span>
+            </div>
+          </div>
+          <div class="panel club-category">
+            <h3>Social / Volunteer</h3>
+            <div class="chips">
+              <span class="chip">NSS CET</span>
+              <span class="chip">Environmental Club CET</span>
+              <span class="chip">Helping Hands CET Wing</span>
+              <span class="chip">PRISM CET</span>
+            </div>
+          </div>
+          <div class="panel club-category">
+            <h3>Sports & Hobby</h3>
+            <div class="chips">
+              <span class="chip">CET Sports Club</span>
+              <span class="chip">CET Cricket Club</span>
+              <span class="chip">Chaturanga CET</span>
+              <span class="chip">Watch The Freakz</span>
+            </div>
+          </div>
+          <div class="panel club-category">
+            <h3>Innovation / Startup / Tech Culture</h3>
+            <div class="chips">
+              <span class="chip">IEDC CET</span>
+              <span class="chip">Innovation Centre</span>
+              <span class="chip">GlitchCET</span>
+            </div>
+          </div>
+          <div class="panel club-category">
+            <h3>Fresher Picks</h3>
+            <div class="chips">
+              <span class="chip">Best clubs for freshers</span>
+              <span class="chip">Branch-wise club fit</span>
+              <span class="chip">Selection prep</span>
+              <span class="chip">Most active clubs 2026</span>
+            </div>
+          </div>
+        </div>
+        <div class="grid-2">
+          <div class="panel admin-only">
+            <div class="panel-title">Club Details</div>
+            <div class="lock-note" data-lock-note>Only admin accounts can edit club details and WhatsApp links.</div>
+            <div class="field">
+              <label for="clubInput">Clubs, coordinators and meeting info</label>
+              <textarea id="clubInput"></textarea>
+            </div>
+            <div class="field">
+              <label for="whatsappInput">WhatsApp group link</label>
+              <input id="whatsappInput" type="url" placeholder="https://chat.whatsapp.com/...">
+            </div>
+            <button id="saveClubBtn">Save Club Details</button>
+          </div>
+          <div class="panel">
+            <div class="panel-title">Saved Club Info</div>
+            <div id="clubOutput" class="item"></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="advice" class="section">
+        <div class="grid-2">
+          <div class="panel">
+            <div class="panel-title">S3 CSE Tips</div>
+            <div class="card-list">
+              <div class="item"><h3>Data Structures First</h3><p class="muted">Practice arrays, linked lists, stacks, queues, trees and graphs with small C/C++ or Java programs before exam season.</p></div>
+              <div class="item"><h3>Build One Project Early</h3><p class="muted">A small web app, campus tool, automation script or open-source contribution gives you something real for clubs, internships and interviews.</p></div>
+              <div class="item"><h3>Use Git From Week One</h3><p class="muted">Learn commits, branches, GitHub README files and issue tracking while your projects are still small.</p></div>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel-title">Fresher Survival Notes</div>
+            <ul class="idea-list">
+              <li>Save your staff advisor, CR, department office and hostel contact numbers.</li>
+              <li>Keep PDFs, lab records and assignment templates organized by semester.</li>
+              <li>Join one technical club and one non-technical activity if your schedule allows.</li>
+              <li>Ask seniors for PYQs, but study the module outcomes before memorizing answers.</li>
+              <li>Start placement basics gradually: aptitude, DSA, communication and resume projects.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="events" class="section">
+        <div class="grid">
+          <div class="panel">
+            <div class="panel-title">Flagship Events</div>
+            <div class="chips">
+              <span class="chip">Drishti</span>
+              <span class="chip">Dhwani</span>
+              <span class="chip">Department fests</span>
+              <span class="chip">Sports meets</span>
+              <span class="chip">Hackathons</span>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel-title">Club Recruitment</div>
+            <p class="muted">Watch official class groups, club Instagram pages and department notices for recruitment tasks, interviews and orientation sessions.</p>
+          </div>
+          <div class="panel">
+            <div class="panel-title">Workshop Tracker</div>
+            <p class="muted">Add workshop dates, registration links, venue, fee, prerequisites and contact person here once the calendar is finalized.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="transport" class="section">
+        <div class="grid">
+          <div class="panel">
+            <div class="panel-title">Getting To Campus</div>
+            <div class="card-list">
+              <div class="item"><h3>Nearest Railway Hub</h3><p class="muted">Thiruvananthapuram Central is the main railway station most students use before taking bus, auto or cab connections.</p></div>
+              <div class="item"><h3>Local Bus Tip</h3><p class="muted">Ask for CET / Sreekariyam / Kulathoor routes depending on your starting point and confirm the stop with local students.</p></div>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel-title">Hostel To Campus</div>
+            <p class="muted">Save hostel gate timing, warden contacts and the safest walking route during your first week. Use the map for quick campus orientation.</p>
+            <a class="action-link btn-light" href="CET_Campus_Interactive_Map_Pro.html">Open Map</a>
+          </div>
+          <div class="panel">
+            <div class="panel-title">Transport Checklist</div>
+            <div class="chips">
+              <span class="chip">Bus route</span>
+              <span class="chip">Nearest stop</span>
+              <span class="chip">Railway station</span>
+              <span class="chip">Emergency cab contact</span>
+              <span class="chip">Hostel gate timing</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="hostel" class="section">
+        <div class="grid">
+          <div class="panel">
+            <div class="panel-title">Men's Hostel</div>
+            <p class="muted">Official site lists men's hostel capacity as 500 students.</p>
+            <div class="chips"><span class="chip">MH Security: 0471 2998473</span><span class="chip">MH Sergeant: 0471 2998870</span></div>
+          </div>
+          <div class="panel">
+            <div class="panel-title">Ladies Hostel</div>
+            <p class="muted">Official site lists ladies' hostel capacity as 400 students.</p>
+            <div class="chips"><span class="chip">LH Security: 0471 2998334</span><span class="chip">Matron: 0471 2998354</span></div>
+          </div>
+          <div class="panel">
+            <div class="panel-title">Hostel Office</div>
+            <p class="muted">Hostel Office: 0471 2998302</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="contacts" class="section">
+        <div class="grid-2">
+          <div class="panel">
+            <div class="panel-title">College Contacts</div>
+            <div class="card-list">
+              <div class="item"><h3>Main Office</h3><div class="muted">0471 2998310</div></div>
+              <div class="item"><h3>Principal Office</h3><div class="muted">0471 2598370</div></div>
+              <div class="item"><h3>Dean Office</h3><div class="muted">0471 2598371</div></div>
+              <div class="item"><h3>Email</h3><div class="muted">principal@cet.ac.in</div></div>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel-title">Student Support</div>
+            <div class="notice">For anti-ragging, grievance, counselling or safety concerns, use official college channels and inform a trusted faculty member or warden quickly.</div>
+          </div>
+        </div>
+      </section>
+
+      <section id="library" class="section">
+        <div class="grid-2">
+          <div class="panel admin-only">
+            <div class="panel-title">Library Timing</div>
+            <div class="lock-note" data-lock-note>Only admin accounts can edit library timing and notes.</div>
+            <div class="field">
+              <label for="libraryTimingInput">Editable timing</label>
+              <input id="libraryTimingInput" placeholder="Example: Mon-Fri 9:00 AM - 5:00 PM">
+            </div>
+            <div class="field">
+              <label for="libraryNotesInput">Library notes</label>
+              <textarea id="libraryNotesInput" placeholder="Membership, ID card, reading room, issue rules..."></textarea>
+            </div>
+            <button id="saveLibraryBtn">Save Library Info</button>
+          </div>
+          <div class="panel">
+            <div class="panel-title">Saved Library Info</div>
+            <div id="libraryOutput" class="item"></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="editor" class="section">
+        <div class="panel admin-only">
+          <div class="panel-title">Faculty In-charge</div>
+          <div class="lock-note" data-lock-note>Only admin accounts can edit faculty in-charge details.</div>
+          <div class="field">
+            <label for="facultyInput">Faculty in-charge details</label>
+            <textarea id="facultyInput" placeholder="Name, department, role, phone/email, office room..."></textarea>
+          </div>
+          <div class="save-row">
+            <button id="saveFacultyBtn">Save Faculty Details</button>
+            <button class="btn-light" data-jump="academic">Go Academic Help</button>
+            <button class="btn-light" data-jump="clubs">Go Clubs</button>
+          </div>
+        </div>
+        <div class="panel" style="margin-top:12px">
+          <div class="panel-title">Saved Faculty Info</div>
+          <div id="facultyOutput" class="item"></div>
+        </div>
+      </section>
+
+      <section id="auth" class="section">
+        <div class="auth-hero">
+          <div class="welcome-panel">
+            <div>
+              <img class="welcome-logo" src="logo.jpeg" alt="College of Engineering logo">
+              <div class="welcome-kicker">CET Fresher Portal</div>
+              <h2 class="welcome-title">College of Engineering Trivandrum guide access</h2>
+              <p class="welcome-copy">Students get a clean campus guide. Admins can maintain academic help, club links, library timing and faculty details in this local demo mode.</p>
+              <div class="role-grid">
+                <div class="role-card">
+                  <strong>Student Access</strong>
+                  <p class="muted">View semester-wise subjects, contacts, hostel info, library notes and campus map access.</p>
+                </div>
+                <div class="role-card">
+                  <strong>Admin Access</strong>
+                  <p class="muted">Edit guide content, save updates locally, reset details and maintain WhatsApp or study links.</p>
+                </div>
+              </div>
+            </div>
+            <div class="chips">
+              <span class="chip">Local demo access</span>
+              <span class="chip">Student view</span>
+              <span class="chip">Admin edit mode</span>
+              <span class="chip">Campus map linked</span>
+            </div>
+          </div>
+          <div class="panel auth-panel">
+            <div class="panel-title">Prototype Access</div>
+            <div class="field">
+              <label for="authEmail">Gmail address</label>
+              <input id="authEmail" type="email" placeholder="name@gmail.com" autocomplete="email">
+            </div>
+            <div class="field">
+              <label for="authPassword">Password</label>
+              <div class="password-row">
+                <input id="authPassword" type="password" placeholder="Local app password" autocomplete="current-password">
+                <button class="btn-light" type="button" data-toggle-password="authPassword">Show</button>
+              </div>
+            </div>
+            <div class="field">
+              <label for="authRole">Account type</label>
+              <select id="authRole">
+                <option value="student">Student</option>
+                <option value="admin">Admin</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="adminCode">Admin code</label>
+              <div class="password-row">
+                <input id="adminCode" type="password" placeholder="Required only for admin signup">
+                <button class="btn-light" type="button" data-toggle-password="adminCode">Show</button>
+              </div>
+            </div>
+            <p class="muted">Prototype admin signup code: <strong>CETADMIN</strong>. This is not real Google authentication.</p>
+            <div class="save-row">
+              <button id="signupBtn">Sign Up</button>
+              <button class="btn-light" id="loginBtn">Login</button>
+              <button class="btn-ghost" id="logoutBtn">Logout</button>
+            </div>
+            <p class="muted" id="authMessage">Use this only for local testing. A real deployment should use Firebase Authentication or Google OAuth instead of local browser storage.</p>
+          </div>
+          <div class="panel">
+            <div class="panel-title">Access Rules</div>
+            <div class="card-list">
+              <div class="item"><h3>Students</h3><p class="muted">Can open the guide, view all sections, open the map, and use study links.</p></div>
+              <div class="item"><h3>Admins</h3><p class="muted">Can edit academic subjects, study folder link, club details, WhatsApp link, library timing, and faculty in-charge details.</p></div>
+              <div class="item"><h3>Production Note</h3><p class="muted">This prototype stores demo access data in localStorage. For a real CET project, replace it with Firebase Authentication or Google OAuth plus proper server-side rules.</p></div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+</div>
+
+<script>
+(function(){
+  const STORAGE_KEY = "cet-fresher-campus-guide-v1";
+  const USERS_KEY = "cet-fresher-campus-guide-users-v1";
+  const SESSION_KEY = "cet-fresher-campus-guide-session-v1";
+  const ADMIN_SIGNUP_CODE = "CETADMIN";
+  const DEFAULT_DRIVE_LINK = "https://drive.google.com/drive/folders/12SftxRnSQ8GprmeKpgTWXCWWybiK4cIV";
+  const semesters = ["S1","S2","S3","S4","S5","S6","S7","S8"];
+  const officialClubs = [
+    {name:"AeroCET", coordinator:"Suparna R"},
+    {name:"Aesi CET", coordinator:"Adhimanyu A"},
+    {name:"American Society Of Civil Engineers", coordinator:"Syam S"},
+    {name:"American Society of Mechanical Engineers", coordinator:"Nithya A S"},
+    {name:"AstroCET", coordinator:"Fidha V"},
+    {name:"Breakthrough Science Society-CET chapter", coordinator:"Neeraj Rajeev Menon"},
+    {name:"CET BBC", coordinator:"Shivahari Pradeepkum"},
+    {name:"CET Cycling Club", coordinator:"Muhammed Rafid KP"},
+    {name:"CET Dance Club", coordinator:"Manchima Nath N M"},
+    {name:"CET FILM SOCIETY", coordinator:"Vaisak B"},
+    {name:"CET Malayalam Club", coordinator:"Rayhan"},
+    {name:"CET Quiz Club", coordinator:"Merlin Shiby"},
+    {name:"CET SHUTTERBUGS", coordinator:"Abel Antony Methews"},
+    {name:"CET Times", coordinator:"Ephrem Mathews, Abhimanyu Pradeep"},
+    {name:"CETALKS", coordinator:"Siva Nandan R"},
+    {name:"CETunes", coordinator:"Jiya Rose Joshy"},
+    {name:"Chaturanga CET", coordinator:"Adhithya C K"},
+    {name:"Creatives Club", coordinator:"Pridhu Raj RS, Karthik S Nair"},
+    {name:"Cyber Security and Competitive Programming CSCP", coordinator:"Gautham Krishna B"},
+    {name:"Data Science Club", coordinator:"Sangeeth Suresh, Karthik S Nair"},
+    {name:"Evolve Racing", coordinator:"Savant P Biju"},
+    {name:"Excelerators", coordinator:"Eldhose Joy"},
+    {name:"FARRAGO", coordinator:"Gokul Rajendran"},
+    {name:"FOLIUM ECO-DRIVE", coordinator:"Rohan R Nair"},
+    {name:"FORUM CET", coordinator:"Abhimanyu H"},
+    {name:"GDG on Campus", coordinator:"Anagha Umesh"},
+    {name:"GLITCH CLUB CET", coordinator:"Hani Muhamed"},
+    {name:"Helping Hand's Organization (H2O CET)", coordinator:"Navaneeth EP"},
+    {name:"Herakles Racing", coordinator:"Krishna"},
+    {name:"Heraura", coordinator:"Nandana S"},
+    {name:"ICI CET CHAPTER", coordinator:"Akhlas Basheer"},
+    {name:"IEEE SB CET", coordinator:"Anvitha Vinod"},
+    {name:"IET on Campus CET", coordinator:"Ananthu V"},
+    {name:"IGS CET STUDENT CHAPTER", coordinator:"Akash J"},
+    {name:"Innovation and Entrepreneurship Development Centre (IEDC CET)", coordinator:"Adithyan A S, Devika J U"},
+    {name:"Internship cell CET", coordinator:"Iqubal Oyalott"},
+    {name:"ISTE SC CET", coordinator:"Devika V"},
+    {name:"Literary Society CET LITSO CET", coordinator:"Amina Jubair"},
+    {name:"MuLearn CET", coordinator:"Mehbin A C"},
+    {name:"National Service Scheme (NSS CET Unit No; 147)", coordinator:"Anush A S, Kripa S Babu"},
+    {name:"National Service Scheme (NSS CET Unit No; 261)", coordinator:"Varsha Santhosh, Hari Sankar K V"},
+    {name:"NCC", coordinator:"Akshaya J N"},
+    {name:"Rangavedhi CET", coordinator:"Asrith K"},
+    {name:"RoboCET", coordinator:"Sarang S"},
+    {name:"SAEINDIA CET", coordinator:"Maheshwari J"},
+    {name:"SCORE@CET", coordinator:"Akhiljith P"},
+    {name:"SHE CET", coordinator:"Sheba Fathima S"},
+    {name:"Silicon CET", coordinator:"Jnanesh Naick G"},
+    {name:"TinkerHub CET", coordinator:"Nanditha D"},
+    {name:"Under25CET", coordinator:"Ephrem Mathews"},
+    {name:"VeloCET", coordinator:"Jnanesh Naick G, Dheeraj M S"},
+    {name:"Zenith Motorsport", coordinator:"Naveen JR"}
+  ];
+  const defaults = {
+    driveLink:DEFAULT_DRIVE_LINK,
+    selectedSemester:"S1",
+    academic:{
+      S1:{subjects:["Engineering Mathematics I","Engineering Physics","Engineering Chemistry","Engineering Mechanics","Engineering Graphics","Programming Basics","Workshop / Lab"],notes:"Foundation semester. Add S1 module notes, PYQs, lab manuals, and mentor contacts here."},
+      S2:{subjects:["Engineering Mathematics II","Programming in C","Data Structures Basics","Basic Electrical Engineering","Basic Electronics Engineering","OOP Introduction","Engineering Science Lab"],notes:"Continuation plus programming core. Add S2 study links, lab help, and exam prep notes here."},
+      S3:{subjects:["Mathematics for Information Science-3","Theory of Computation","Data Structures and Algorithms","Object Oriented Programming","Digital Electronics and Logic Design","Economics for Engineers / Ethics slot"],notes:"CSE S3 starter list from current KTU 2024 references. Cross-check final subject names with the official KTU Group A curriculum or department notice."},
+      S4:{subjects:["Official CSE S4 subjects to be verified","Core programming / systems courses","Lab courses","Humanities / audit slot"],notes:"Replace with exact official CSE S4 subjects from the KTU curriculum before publishing."},
+      S5:{subjects:["Official CSE S5 subjects to be verified","Professional electives","Lab / mini project components"],notes:"Add exact S5 subjects, module notes, and PYQs after department confirmation."},
+      S6:{subjects:["Official CSE S6 subjects to be verified","Professional electives","Mini project / lab components"],notes:"Add S6 subjects, mini-project help, and elective resources after department confirmation."},
+      S7:{subjects:["Official CSE S7 subjects to be verified","Professional electives","Project Phase 1","Seminar / Internship"],notes:"Add S7 project, placement, seminar, and elective links after department confirmation."},
+      S8:{subjects:["Official CSE S8 subjects to be verified","Project Phase 2","Comprehensive Viva","Internship / industry course"],notes:"Add S8 project, viva, internship, and final exam resources after department confirmation."}
+    },
+    faculty:"Add faculty in-charge details here.",
+    clubs:"Major CET clubs include AeroCET, RoboCET, VeloCET, SAEINDIA CET, IEEE Student Branch CET, ISTE Student Chapter CET, IEDC CET, GDSC CET, Innovation Centre CET, SCORE@CET, Coders Club, TinkerHub CET, IGS CET, ICI CET, ASCE CET, Internship Cell, IPR Cell, Folium Eco-Drive, ENCON Club, AstroCET, CET Film Society, CET Shutterbugs, CETunes, Malayalam Club, LitSoc CET, CETalks, CET Quiz Club, Mathletes CET, Debate/MUN groups, NSS CET, Environmental Club CET, Helping Hands, PRISM CET, CET Sports Club, Chaturanga CET, Watch The Freakz and GlitchCET.",
+    whatsapp:"",
+    libraryTiming:"Edit official library timing here.",
+    libraryNotes:"Add ID card, membership, issue rules, reading room and digital library notes here.",
+    checklist:["Get ID card","Find department office","Set up CMS/LMS","Check official announcements","Meet staff advisor","Visit library","Save key contacts","Open campus map"]
+  };
+  let state = loadState();
+  let users = loadUsers();
+  let currentUser = loadSession();
+  const searchIndex = [
+    {title:"Library", section:"library", text:"Library timing, membership, ID card rules, reading room and digital resources."},
+    {title:"CS Department", section:"places", text:"Find department office, staff advisor, classrooms and department help using campus places and map."},
+    {title:"Canteen", section:"places", text:"Use campus places and the interactive map to locate canteen and food points."},
+    {title:"Hostel", section:"hostel", text:"Men's hostel, ladies hostel, hostel office, security and matron contacts."},
+    {title:"Campus Map", section:"places", text:"Open the bundled interactive map for markers, routes and campus navigation."},
+    {title:"KTU 2024 Scheme", section:"scheme", text:"S1 and S2 common foundation, Groups A-D branch classification, S3-S8 roadmap, branch core examples and final-year project pattern."},
+    {title:"Notes And PYQs", section:"academic", text:"Semester resources, study folder, module notes, previous year questions, lab records and playlists."},
+    {title:"Senior Advice", section:"advice", text:"S3 CSE tips, DSA practice, GitHub, projects and fresher survival notes."},
+    {title:"Events", section:"events", text:"Drishti, Dhwani, club recruitment, workshops, department fests and hackathons."},
+    {title:"Transport", section:"transport", text:"Bus routes, railway station, hostel-to-campus tips and emergency travel checklist."},
+    {title:"Contacts", section:"contacts", text:"Main office, principal office, dean office, email and student support notes."},
+    {title:"Clubs", section:"clubs", text:`Official CET Club Platform directory: ${officialClubs.map(club => club.name).join(", ")}. Technical clubs, arts clubs, volunteer groups, sports, innovation and startup culture.`}
+  ];
+
+  const els = {
+    sections:[...document.querySelectorAll(".section")],
+    navButtons:[...document.querySelectorAll(".nav button")],
+    jumpButtons:[...document.querySelectorAll("[data-jump]")],
+    semesterSelect:document.getElementById("semesterSelect"),
+    subjectInput:document.getElementById("subjectInput"),
+    helpInput:document.getElementById("helpInput"),
+    driveInput:document.getElementById("driveInput"),
+    saveAcademicBtn:document.getElementById("saveAcademicBtn"),
+    semesterCards:document.getElementById("semesterCards"),
+    homeDriveLink:document.getElementById("homeDriveLink"),
+    checklist:document.getElementById("checklist"),
+    officialClubs:document.getElementById("officialClubs"),
+    campusSearch:document.getElementById("campusSearch"),
+    clearSearchBtn:document.getElementById("clearSearchBtn"),
+    searchResults:document.getElementById("searchResults"),
+    clubInput:document.getElementById("clubInput"),
+    whatsappInput:document.getElementById("whatsappInput"),
+    saveClubBtn:document.getElementById("saveClubBtn"),
+    clubOutput:document.getElementById("clubOutput"),
+    libraryTimingInput:document.getElementById("libraryTimingInput"),
+    libraryNotesInput:document.getElementById("libraryNotesInput"),
+    saveLibraryBtn:document.getElementById("saveLibraryBtn"),
+    libraryOutput:document.getElementById("libraryOutput"),
+    facultyInput:document.getElementById("facultyInput"),
+    saveFacultyBtn:document.getElementById("saveFacultyBtn"),
+    facultyOutput:document.getElementById("facultyOutput"),
+    exportBtn:document.getElementById("exportBtn"),
+    resetBtn:document.getElementById("resetBtn"),
+    mapLinks:[...document.querySelectorAll('a[href*="CET_Campus_Interactive_Map_Pro.html"]')],
+    loginRequiredButtons:[...document.querySelectorAll(".requires-login")],
+    authBadge:document.getElementById("authBadge"),
+    authEmail:document.getElementById("authEmail"),
+    authPassword:document.getElementById("authPassword"),
+    authRole:document.getElementById("authRole"),
+    adminCode:document.getElementById("adminCode"),
+    signupBtn:document.getElementById("signupBtn"),
+    loginBtn:document.getElementById("loginBtn"),
+    logoutBtn:document.getElementById("logoutBtn"),
+    authMessage:document.getElementById("authMessage"),
+    adminOnlyPanels:[...document.querySelectorAll(".admin-only")],
+    lockNotes:[...document.querySelectorAll("[data-lock-note]")]
+  };
+
+  function loadState(){
+    try{
+      const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
+      if(!saved) return structuredClone(defaults);
+      return {...structuredClone(defaults), ...saved, academic:{...defaults.academic, ...(saved.academic || {})}};
+    }catch(err){
+      return structuredClone(defaults);
+    }
+  }
+
+  function saveState(){
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  }
+
+  function loadUsers(){
+    try{
+      const saved = JSON.parse(localStorage.getItem(USERS_KEY));
+      return Array.isArray(saved) ? saved : [];
+    }catch(err){
+      return [];
+    }
+  }
+
+  function saveUsers(){
+    localStorage.setItem(USERS_KEY, JSON.stringify(users));
+  }
+
+  function loadSession(){
+    try{
+      const saved = JSON.parse(localStorage.getItem(SESSION_KEY));
+      if(!saved || !saved.email) return null;
+      return saved;
+    }catch(err){
+      return null;
+    }
+  }
+
+  function saveSession(user){
+    currentUser = user ? {email:user.email, role:user.role} : null;
+    if(currentUser){
+      localStorage.setItem(SESSION_KEY, JSON.stringify(currentUser));
+    }else{
+      localStorage.removeItem(SESSION_KEY);
+    }
+  }
+
+  function isGmail(email){
+    return /^[^\s@]+@gmail\.com$/i.test(String(email || "").trim());
+  }
+
+  function isAdmin(){
+    return currentUser && currentUser.role === "admin";
+  }
+
+  function isLoggedIn(){
+    return Boolean(currentUser);
+  }
+
+  function escapeHtml(value){
+    return String(value || "").replace(/[&<>"']/g, char => ({
+      "&":"&amp;",
+      "<":"&lt;",
+      ">":"&gt;",
+      '"':"&quot;",
+      "'":"&#039;"
+    }[char]));
+  }
+
+  function escapeAttr(value){
+    return escapeHtml(value).replace(/`/g, "&#096;");
+  }
+
+  function showSection(id){
+    els.sections.forEach(section => section.classList.toggle("active", section.id === id));
+    els.navButtons.forEach(button => button.classList.toggle("active", button.dataset.section === id));
+    if(id && location.hash !== "#" + id){
+      history.replaceState(null, "", "#" + id);
+    }
+  }
+
+  function render(){
+    els.semesterSelect.innerHTML = semesters.map(sem => `<option value="${sem}">Semester ${sem.slice(1)}</option>`).join("");
+    els.semesterSelect.value = state.selectedSemester;
+    renderAcademicEditor();
+    renderAcademicCards();
+    renderSavedDetails();
+    renderOfficialClubs();
+    renderAuth();
+    applyAccessControl();
+    els.homeDriveLink.href = state.driveLink || DEFAULT_DRIVE_LINK;
+    els.driveInput.value = state.driveLink || DEFAULT_DRIVE_LINK;
+    els.checklist.innerHTML = state.checklist.map(item => `<span class="chip">${escapeHtml(item)}</span>`).join("");
+    renderSearch(els.campusSearch.value);
+  }
+
+  function renderOfficialClubs(){
+    els.officialClubs.innerHTML = officialClubs.map(club => `
+      <article class="item official-club-card">
+        <h3>${escapeHtml(club.name)}</h3>
+        <p class="muted"><strong>Student Coordinator:</strong> ${escapeHtml(club.coordinator)}</p>
+      </article>
+    `).join("");
+  }
+
+  function renderSearch(query){
+    const term = String(query || "").trim().toLowerCase();
+    const matches = searchIndex.filter(item => {
+      const haystack = `${item.title} ${item.text} ${item.section}`.toLowerCase();
+      return !term || haystack.includes(term);
+    }).slice(0, 6);
+    els.searchResults.innerHTML = matches.map(item => `
+      <button class="search-result" type="button" data-result-section="${escapeAttr(item.section)}">
+        <strong>${escapeHtml(item.title)}</strong>
+        <span>${escapeHtml(item.text)}</span>
+      </button>
+    `).join("");
+    document.querySelectorAll("[data-result-section]").forEach(button => {
+      button.addEventListener("click", () => {
+        showSection(button.dataset.resultSection);
+      });
+    });
+  }
+
+  function renderAcademicEditor(){
+    const sem = state.selectedSemester;
+    const data = state.academic[sem] || {subjects:[],notes:""};
+    els.subjectInput.value = Array.isArray(data.subjects) ? data.subjects.join("\n") : "";
+    els.helpInput.value = data.notes || "";
+  }
+
+  function renderAcademicCards(){
+    els.semesterCards.innerHTML = semesters.map(sem => {
+      const data = state.academic[sem] || {subjects:[],notes:""};
+      const subjects = data.subjects && data.subjects.length
+        ? `<div class="chips">${data.subjects.map(subject => `<span class="chip">${escapeHtml(subject)}</span>`).join("")}</div>`
+        : `<div class="muted">No subjects added yet.</div>`;
+      const active = sem === state.selectedSemester ? " active" : "";
+      return `
+        <article class="item sem-card${active}" data-sem="${sem}" tabindex="0">
+          <h3>${sem} Subjects</h3>
+          ${subjects}
+          <p class="muted">${escapeHtml(data.notes || "")}</p>
+          <a href="${escapeAttr(state.driveLink || DEFAULT_DRIVE_LINK)}" target="_blank" rel="noopener">Open study folder</a>
+        </article>
+      `;
+    }).join("");
+    document.querySelectorAll(".sem-card").forEach(card => {
+      card.addEventListener("click", () => selectSemester(card.dataset.sem));
+      card.addEventListener("keydown", event => {
+        if(event.key === "Enter" || event.key === " "){
+          event.preventDefault();
+          selectSemester(card.dataset.sem);
+        }
+      });
+    });
+  }
+
+  function renderSavedDetails(){
+    els.clubInput.value = state.clubs;
+    els.whatsappInput.value = state.whatsapp;
+    els.clubOutput.innerHTML = `
+      <h3>Club Details</h3>
+      <p class="muted">${escapeHtml(state.clubs)}</p>
+      ${state.whatsapp ? `<a href="${escapeAttr(state.whatsapp)}" target="_blank" rel="noopener">Open WhatsApp group</a>` : `<span class="muted">No WhatsApp link added.</span>`}
+    `;
+    els.libraryTimingInput.value = state.libraryTiming;
+    els.libraryNotesInput.value = state.libraryNotes;
+    els.libraryOutput.innerHTML = `
+      <h3>${escapeHtml(state.libraryTiming)}</h3>
+      <p class="muted">${escapeHtml(state.libraryNotes)}</p>
+    `;
+    els.facultyInput.value = state.faculty;
+    els.facultyOutput.innerHTML = `<p class="muted">${escapeHtml(state.faculty)}</p>`;
+  }
+
+  function selectSemester(sem){
+    if(!semesters.includes(sem)) return;
+    state.selectedSemester = sem;
+    els.semesterSelect.value = sem;
+    renderAcademicEditor();
+    renderAcademicCards();
+    saveState();
+  }
+
+  function renderAuth(){
+    if(currentUser){
+      els.authBadge.textContent = `${currentUser.role === "admin" ? "Admin" : "Student"}: ${currentUser.email}`;
+      els.authBadge.classList.toggle("locked", currentUser.role !== "admin");
+      els.authMessage.textContent = currentUser.role === "admin"
+        ? "Admin access active. Editing is unlocked."
+        : "Student access active. You can view details, but editing is locked.";
+      els.logoutBtn.disabled = false;
+    }else{
+      els.authBadge.textContent = "Guest view";
+      els.authBadge.classList.add("locked");
+      els.authMessage.textContent = "Use this only for local testing. A real deployment should use Firebase Authentication or Google OAuth instead of local browser storage.";
+      els.logoutBtn.disabled = true;
+    }
+  }
+
+  function applyAccessControl(){
+    const admin = isAdmin();
+    const loggedIn = isLoggedIn();
+    els.loginRequiredButtons.forEach(button => {
+      button.disabled = false;
+      button.classList.remove("is-locked");
+    });
+    els.mapLinks.forEach(link => {
+      link.setAttribute("aria-disabled", "false");
+      link.classList.remove("is-locked");
+    });
+    els.exportBtn.disabled = !loggedIn;
+    els.adminOnlyPanels.forEach(panel => panel.classList.toggle("is-locked", !admin));
+    els.lockNotes.forEach(note => note.style.display = admin ? "none" : "block");
+    [
+      els.subjectInput,
+      els.helpInput,
+      els.driveInput,
+      els.clubInput,
+      els.whatsappInput,
+      els.libraryTimingInput,
+      els.libraryNotesInput,
+      els.facultyInput
+    ].forEach(control => control.disabled = !admin);
+    [
+      els.saveAcademicBtn,
+      els.saveClubBtn,
+      els.saveLibraryBtn,
+      els.saveFacultyBtn,
+      els.resetBtn
+    ].forEach(control => control.disabled = !admin);
+  }
+
+  function requireLogin(){
+    if(isLoggedIn()) return true;
+    els.authMessage.textContent = "Please sign up or login before exporting guide data.";
+    showSection("auth");
+    return false;
+  }
+
+  function requireAdmin(){
+    if(isAdmin()) return true;
+    alert("Login as admin to edit guide details.");
+    showSection("auth");
+    return false;
+  }
+
+  function readAuthForm(){
+    return {
+      email:els.authEmail.value.trim().toLowerCase(),
+      password:els.authPassword.value,
+      role:els.authRole.value,
+      code:els.adminCode.value.trim()
+    };
+  }
+
+  els.navButtons.forEach(button => button.addEventListener("click", () => showSection(button.dataset.section)));
+  els.jumpButtons.forEach(button => button.addEventListener("click", () => {
+    showSection(button.dataset.jump);
+  }));
+  els.campusSearch.addEventListener("input", event => renderSearch(event.target.value));
+  els.clearSearchBtn.addEventListener("click", () => {
+    els.campusSearch.value = "";
+    renderSearch("");
+    els.campusSearch.focus();
+  });
+  document.querySelectorAll("[data-toggle-password]").forEach(button => {
+    button.addEventListener("click", () => {
+      const input = document.getElementById(button.dataset.togglePassword);
+      if(!input) return;
+      const showing = input.type === "text";
+      input.type = showing ? "password" : "text";
+      button.textContent = showing ? "Show" : "Hide";
+    });
+  });
+  els.semesterSelect.addEventListener("change", event => selectSemester(event.target.value));
+  els.saveAcademicBtn.addEventListener("click", () => {
+    if(!requireAdmin()) return;
+    const sem = els.semesterSelect.value;
+    state.selectedSemester = sem;
+    state.driveLink = els.driveInput.value.trim() || DEFAULT_DRIVE_LINK;
+    state.academic[sem] = {
+      subjects:els.subjectInput.value.split(/\r?\n/).map(item => item.trim()).filter(Boolean),
+      notes:els.helpInput.value.trim()
+    };
+    saveState();
+    render();
+  });
+  els.saveClubBtn.addEventListener("click", () => {
+    if(!requireAdmin()) return;
+    state.clubs = els.clubInput.value.trim();
+    state.whatsapp = els.whatsappInput.value.trim();
+    saveState();
+    renderSavedDetails();
+  });
+  els.saveLibraryBtn.addEventListener("click", () => {
+    if(!requireAdmin()) return;
+    state.libraryTiming = els.libraryTimingInput.value.trim();
+    state.libraryNotes = els.libraryNotesInput.value.trim();
+    saveState();
+    renderSavedDetails();
+  });
+  els.saveFacultyBtn.addEventListener("click", () => {
+    if(!requireAdmin()) return;
+    state.faculty = els.facultyInput.value.trim();
+    saveState();
+    renderSavedDetails();
+  });
+  els.signupBtn.addEventListener("click", () => {
+    const form = readAuthForm();
+    if(!isGmail(form.email)){
+      els.authMessage.textContent = "Please use a valid Gmail address ending in @gmail.com.";
+      return;
+    }
+    if(form.password.length < 4){
+      els.authMessage.textContent = "Use at least 4 characters for the local app password.";
+      return;
+    }
+    if(form.role === "admin" && form.code !== ADMIN_SIGNUP_CODE){
+      els.authMessage.textContent = "Admin signup needs the correct admin code.";
+      return;
+    }
+    if(users.some(user => user.email === form.email)){
+      els.authMessage.textContent = "This Gmail is already signed up. Use Login.";
+      return;
+    }
+    const user = {email:form.email, password:form.password, role:form.role};
+    users.push(user);
+    saveUsers();
+    saveSession(user);
+    els.authPassword.value = "";
+    els.adminCode.value = "";
+    render();
+    showSection("home");
+  });
+  els.loginBtn.addEventListener("click", () => {
+    const form = readAuthForm();
+    const user = users.find(item => item.email === form.email && item.password === form.password);
+    if(!user){
+      els.authMessage.textContent = "Login failed. Check the Gmail and password, or sign up first.";
+      return;
+    }
+    saveSession(user);
+    els.authPassword.value = "";
+    els.adminCode.value = "";
+    render();
+    showSection("home");
+  });
+  els.logoutBtn.addEventListener("click", () => {
+    saveSession(null);
+    render();
+  });
+  els.exportBtn.addEventListener("click", () => {
+    if(!requireLogin()) return;
+    const blob = new Blob([JSON.stringify(state, null, 2)], {type:"application/json"});
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "cet-fresher-campus-guide.json";
+    link.click();
+    URL.revokeObjectURL(url);
+  });
+  els.resetBtn.addEventListener("click", () => {
+    if(!requireAdmin()) return;
+    if(!confirm("Reset the guide to default fresher details?")) return;
+    state = structuredClone(defaults);
+    saveState();
+    render();
+    showSection("home");
+  });
+
+  render();
+  if(location.hash && document.getElementById(location.hash.slice(1))){
+    showSection(location.hash.slice(1));
+  }
+})();
+</script>
+</body>
+</html>
