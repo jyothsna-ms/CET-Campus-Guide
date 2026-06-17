@@ -1,0 +1,91 @@
+// ─── CET Campus Guide — Prisma Schema ────────────────────────────────────────
+// After editing this file run:  npx prisma db push
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  // Change to "postgresql" for production and update DATABASE_URL in .env
+  url      = env("DATABASE_URL")
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// AUTH
+// ─────────────────────────────────────────────────────────────────────────────
+
+model User {
+  id         String     @id @default(cuid())
+  name       String
+  email      String     @unique
+  password   String                          // bcrypt hash — never plaintext
+  role       String     @default("STUDENT") // STUDENT | FACULTY | STAFF | ALUMNI | VISITOR | ADMIN
+  department String?
+  rollNumber String?    @unique
+  phone      String?
+  avatarUrl  String?
+  isVerified Boolean    @default(false)
+  isActive   Boolean    @default(true)
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+
+  sessions   Session[]
+  bookmarks  Bookmark[]
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  userId    String
+  token     String   @unique              // SHA-256 hash of the raw refresh token
+  userAgent String?
+  ip        String?
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// CAMPUS DATA
+// ─────────────────────────────────────────────────────────────────────────────
+
+model Building {
+  id          String  @id @default(cuid())
+  name        String
+  shortCode   String  @unique             // e.g. "CSE", "LIB", "MAIN"
+  description String?
+  lat         Float?                      // GPS latitude
+  lng         Float?                      // GPS longitude
+  imageUrl    String?
+
+  rooms       Room[]
+}
+
+model Room {
+  id         String   @id @default(cuid())
+  name       String
+  number     String
+  buildingId String
+  floor      Int
+  type       String   @default("CLASSROOM") // CLASSROOM | LAB | OFFICE | SEMINAR_HALL | AUDITORIUM
+  capacity   Int?
+
+  building   Building @relation(fields: [buildingId], references: [id])
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// BOOKMARKS
+// ─────────────────────────────────────────────────────────────────────────────
+
+model Bookmark {
+  id         String   @id @default(cuid())
+  userId     String
+  entityType String                        // "building" | "room" | "notice"
+  entityId   String
+  createdAt  DateTime @default(now())
+
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, entityType, entityId]) // prevent duplicate bookmarks
+}
