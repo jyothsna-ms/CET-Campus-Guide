@@ -1,511 +1,320 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CET Guide App</title>
-<style>
-:root{
-  --bg:#f4f7fb;
-  --panel:#ffffff;
-  --text:#182231;
-  --muted:#627083;
-  --line:#d9e3ee;
-  --primary:#0b7285;
-  --primary-dark:#075361;
-  --accent:#e05b5b;
-  --gold:#f4b740;
-  --leaf:#2f9e44;
-  --danger:#b42318;
-  --radius:8px;
-  --shadow:0 16px 42px rgba(15,32,48,.14);
-  --campus-story:url("campus-story.jpeg");
-  --campus-building:url("campus-building.jpeg");
-}
-*{box-sizing:border-box}
-body{
-  margin:0;
-  min-height:100vh;
-  font-family:Inter,Segoe UI,Arial,sans-serif;
-  color:var(--text);
-  background:
-    radial-gradient(circle at top left,rgba(244,183,64,.22),transparent 34%),
-    radial-gradient(circle at 90% 12%,rgba(224,91,91,.16),transparent 30%),
-    linear-gradient(rgba(247,251,255,.86),rgba(247,251,255,.86)),
-    var(--campus-building) center top/cover fixed no-repeat,
-    linear-gradient(135deg,#f7fbff 0%,#edf7f6 48%,#fff7ee 100%);
-}
-button,input{font:inherit}
-button,.action-link{
-  border:0;
-  border-radius:var(--radius);
-  padding:10px 12px;
-  background:var(--primary);
-  color:#fff;
-  cursor:pointer;
-  font-weight:800;
-  text-decoration:none;
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  gap:8px;
-}
-button:hover,.action-link:hover{background:var(--primary-dark)}
-button:disabled{opacity:.58;cursor:not-allowed}
-.btn-light{background:#edf5f8;color:var(--primary);border:1px solid #cfe3ec}
-.btn-light:hover{background:#dcecf2}
-.btn-gold{background:linear-gradient(135deg,var(--gold),#e08a28);color:#342205}
-.btn-gold:hover{background:linear-gradient(135deg,#ffd26c,#dc7f1e)}
-.btn-ghost{background:#fff;color:#3c5064;border:1px solid var(--line)}
-.btn-ghost:hover{background:#f6f8fa;color:var(--text)}
-.app{min-height:100vh;display:grid;grid-template-rows:auto 1fr}
-.topbar{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:16px;
-  padding:14px 18px;
-  background:rgba(255,255,255,.88);
-  border-bottom:1px solid var(--line);
-  box-shadow:0 8px 28px rgba(15,32,48,.08);
-  backdrop-filter:blur(14px);
-}
-.brand{display:flex;align-items:center;gap:12px;min-width:0}
-.brand-mark{
-  width:46px;
-  height:46px;
-  border-radius:8px;
-  display:grid;
-  place-items:center;
-  color:#fff;
-  background:linear-gradient(135deg,var(--primary),#02a9a5 58%,var(--accent));
-  font-weight:900;
-  box-shadow:0 10px 24px rgba(11,114,133,.22);
-}
-h1{margin:0;font-size:20px;line-height:1.2}
-.subtitle{font-size:13px;color:var(--muted);margin-top:2px}
-.top-actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
-.shell{
-  width:min(1120px,100%);
-  margin:0 auto;
-  padding:18px;
-  display:grid;
-  grid-template-columns:minmax(0,1.05fr) 360px;
-  gap:14px;
-  align-items:start;
-}
-.hero{
-  min-height:440px;
-  padding:28px;
-  border-radius:var(--radius);
-  color:#fff;
-  border:1px solid rgba(255,255,255,.72);
-  background:
-    linear-gradient(90deg,rgba(7,83,97,.96),rgba(11,114,133,.84) 44%,rgba(24,34,49,.36)),
-    linear-gradient(0deg,rgba(24,34,49,.32),rgba(24,34,49,.08)),
-    var(--campus-story) right center/auto 100% no-repeat,
-    linear-gradient(45deg,rgba(244,183,64,.46),transparent);
-  box-shadow:var(--shadow);
-  display:flex;
-  flex-direction:column;
-  justify-content:space-between;
-  overflow:hidden;
-}
-.kicker{
-  color:#ffe7a6;
-  font-size:12px;
-  font-weight:900;
-  text-transform:uppercase;
-  letter-spacing:.06em;
-  margin-bottom:10px;
-}
-.hero h2{
-  margin:0 0 12px;
-  max-width:620px;
-  font-size:48px;
-  line-height:1.05;
-  letter-spacing:0;
-}
-.hero p{
-  margin:0;
-  max-width:610px;
-  color:rgba(255,255,255,.9);
-  font-size:16px;
-  line-height:1.55;
-}
-.hero-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
-.hero .btn-light,.hero .action-link.btn-light{background:rgba(255,255,255,.16);color:#fff;border-color:rgba(255,255,255,.5)}
-.hero .btn-ghost{background:#fff;color:var(--primary-dark);border-color:#fff}
-.hero-stats{
-  display:grid;
-  grid-template-columns:repeat(3,minmax(0,1fr));
-  gap:10px;
-  margin-top:28px;
-  max-width:640px;
-}
-.stat{
-  background:rgba(255,255,255,.13);
-  border:1px solid rgba(255,255,255,.22);
-  border-radius:var(--radius);
-  padding:12px;
-}
-.stat strong{display:block;font-size:24px}
-.stat span{font-size:12px;color:rgba(255,255,255,.82)}
-.panel{
-  background:var(--panel);
-  border:1px solid var(--line);
-  border-radius:var(--radius);
-  box-shadow:0 8px 24px rgba(20,38,55,.06);
-  padding:14px;
-}
-.panel-title{
-  margin:0 0 10px;
-  font-size:14px;
-  font-weight:900;
-  text-transform:uppercase;
-  color:#3c5064;
-  letter-spacing:.04em;
-}
-.auth-card{display:grid;gap:10px}
-.tabs{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.tabs button{background:#fff;color:#34495e;border:1px solid var(--line)}
-.tabs button.active{background:var(--primary);color:#fff;border-color:var(--primary)}
-.field{display:grid;gap:6px}
-.field label{font-size:12px;color:var(--muted);font-weight:800}
-input{
-  width:100%;
-  border:1px solid var(--line);
-  border-radius:var(--radius);
-  background:#fff;
-  color:var(--text);
-  padding:10px 11px;
-  outline:none;
-}
-input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(5,102,141,.13)}
-.notice{
-  padding:10px;
-  border-radius:var(--radius);
-  border:1px solid #fed7aa;
-  background:#fff7ed;
-  color:#9a3412;
-  font-size:13px;
-  line-height:1.4;
-}
-.status{
-  padding:10px;
-  border-radius:var(--radius);
-  background:#ecfbf8;
-  color:#0f766e;
-  border:1px solid #c9f3ec;
-  font-size:13px;
-  line-height:1.4;
-}
-.grid{
-  display:grid;
-  grid-template-columns:repeat(3,minmax(0,1fr));
-  gap:12px;
-  margin-top:14px;
-}
-.campus-strip{
-  grid-column:1 / -1;
-  min-height:170px;
-  border-radius:var(--radius);
-  border:1px solid rgba(255,255,255,.72);
-  background:
-    linear-gradient(90deg,rgba(24,34,49,.72),rgba(24,34,49,.08)),
-    var(--campus-building) center/cover no-repeat;
-  box-shadow:var(--shadow);
-  color:#fff;
-  padding:18px;
-  display:flex;
-  flex-direction:column;
-  justify-content:flex-end;
-}
-.campus-strip strong{font-size:22px}
-.campus-strip span{max-width:560px;color:rgba(255,255,255,.85);font-size:13px;line-height:1.45;margin-top:5px}
-.item{
-  background:#fff;
-  border:1px solid var(--line);
-  border-radius:var(--radius);
-  padding:13px;
-}
-.item h3{margin:0 0 6px;font-size:15px}
-.muted{color:var(--muted);font-size:13px;line-height:1.45}
-.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
-.chip{
-  display:inline-flex;
-  align-items:center;
-  border-radius:999px;
-  background:#eef3f7;
-  color:#34495e;
-  padding:4px 8px;
-  font-size:12px;
-  font-weight:800;
-}
-.main-dashboard{display:none}
-.main-dashboard.active{display:block}
-.profile-row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}
-.avatar{
-  width:42px;
-  height:42px;
-  border-radius:50%;
-  display:grid;
-  place-items:center;
-  background:linear-gradient(135deg,var(--primary),#02a9a5);
-  color:#fff;
-  font-weight:900;
-}
-.profile{display:flex;align-items:center;gap:10px}
-.role{font-size:12px;color:var(--muted)}
-.quick-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.quick{
-  text-align:left;
-  justify-content:flex-start;
-  align-items:flex-start;
-  min-height:90px;
-  flex-direction:column;
-  background:#fff;
-  color:var(--text);
-  border:1px solid var(--line);
-}
-.quick:hover{background:#fff8ea;color:var(--primary-dark)}
-.quick strong{font-size:14px}
-.quick span{font-size:12px;line-height:1.4;color:var(--muted);font-weight:600}
-a{color:var(--primary);font-weight:800;text-decoration:none}
-@media (max-width:920px){
-  .shell{grid-template-columns:1fr}
-  .hero h2{font-size:34px}
-  .hero{background:
-    linear-gradient(135deg,rgba(7,83,97,.95),rgba(11,114,133,.84) 58%,rgba(224,91,91,.78)),
-    linear-gradient(0deg,rgba(24,34,49,.4),rgba(24,34,49,.08)),
-    var(--campus-story) center/cover no-repeat}
-}
-@media (max-width:620px){
-  .topbar{align-items:flex-start;flex-direction:column}
-  .top-actions,.top-actions a,.top-actions button{width:100%}
-  .shell{padding:12px}
-  .hero{padding:20px}
-  .hero h2{font-size:30px}
-  .hero-stats,.grid,.quick-grid{grid-template-columns:1fr}
-}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CET Campus Guide & Interactive Map</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 </head>
 <body>
-<div class="app">
-  <header class="topbar">
-    <div class="brand">
-      <div class="brand-mark">CET</div>
+  <!-- Auth View -->
+  <div id="authView" class="auth-view">
+    <div class="auth-art">
+      <div class="brand-lockup">
+        <img src="logo.jpeg" alt="CET Logo">
+        <span>CET Guide</span>
+      </div>
       <div>
-        <h1>CET Guide App</h1>
-        <div class="subtitle">Login, fresher tools, study shortcuts and linked campus navigation</div>
+        <h1>CET Campus Guide</h1>
+        <p class="hero-copy">Access official study resources, view the campus map, check department HODs, and connect with other freshers in the College of Engineering Trivandrum.</p>
+      </div>
+      <div>
+        <p class="hint">College of Engineering Trivandrum, Sreekaryam</p>
       </div>
     </div>
-    <div class="top-actions">
-      <a class="action-link btn-light" href="CET_Fresher_Campus_Guide.html">Fresher Guide</a>
-      <a class="action-link btn-light" href="CET_Campus_Interactive_Map_Pro.html">Campus Map</a>
+    
+    <div class="auth-panel">
+      <form id="authForm" class="auth-card">
+        <h2 id="authTitle">Log in to continue</h2>
+        <p id="authSubtitle">Use your CET guide account to open the home page.</p>
+        
+        <div class="segmented">
+          <button type="button" class="active" data-auth-mode="login">Log In</button>
+          <button type="button" data-auth-mode="signup">Sign Up</button>
+        </div>
+        
+        <div id="nameField" class="hidden">
+          <label>Full Name
+            <input id="nameInput" type="text" placeholder="Ananya Nair">
+          </label>
+        </div>
+        
+        <div>
+          <label>Email Address
+            <input id="emailInput" type="email" placeholder="you@example.com" required>
+          </label>
+        </div>
+        
+        <div>
+          <label>Password
+            <input id="passwordInput" type="password" placeholder="••••••••" required>
+          </label>
+        </div>
+        
+        <div id="roleField" class="hidden">
+          <label>Role
+            <select id="roleInput">
+              <option value="student">Student</option>
+              <option value="admin">Administrator</option>
+            </select>
+          </label>
+        </div>
+        
+        <div id="adminCodeField" class="hidden">
+          <label>Admin Access Code
+            <input id="adminCodeInput" type="password" placeholder="Enter admin code (admin123)">
+          </label>
+        </div>
+        
+        <div id="authStatus" class="status"></div>
+        
+        <button type="submit" id="authSubmit" class="primary">Log in</button>
+        <button type="button" id="demoBtn" class="secondary">Try Student Demo</button>
+      </form>
     </div>
-  </header>
-
-  <main class="shell">
-    <section class="hero">
-      <div>
-        <div class="kicker">College of Engineering Trivandrum</div>
-        <h2>Back to campus starts here</h2>
-        <p>Open this page first, choose your role, then move into the fresher guide, campus map, academics, contacts and clubs without leaving the CET app flow.</p>
-        <div class="hero-actions">
-          <button class="btn-ghost" data-fill="student">Student Sign Up</button>
-          <button class="btn-light" data-fill="admin">Admin Login</button>
-          <a class="action-link btn-light" href="CET_Fresher_Campus_Guide.html">Open Full Guide</a>
-        </div>
+  </div>
+  <!-- App View -->
+  <div id="appView" class="app-view hidden">
+    <aside class="sidebar">
+      <div class="brand-lockup compact">
+        <img src="logo.jpeg" alt="CET Logo">
+        <span>CET Guide</span>
       </div>
-      <div class="hero-stats">
-        <div class="stat"><strong>Start</strong><span>First page for the full app</span></div>
-        <div class="stat"><strong>S1-S8</strong><span>Study flow ready</span></div>
-        <div class="stat"><strong>Map</strong><span>Campus navigation included</span></div>
-      </div>
-    </section>
-
-    <aside class="panel">
-      <div id="authPanel">
-        <div class="panel-title">Account Access</div>
-        <div class="tabs" aria-label="Account type">
-          <button class="active" data-mode="student">Student</button>
-          <button data-mode="admin">Admin</button>
-        </div>
-        <div class="auth-card" style="margin-top:12px">
-          <div class="field" id="nameField">
-            <label for="nameInput">Full name</label>
-            <input id="nameInput" placeholder="Example: Ananya Nair">
-          </div>
-          <div class="field">
-            <label for="emailInput">Email</label>
-            <input id="emailInput" type="email" placeholder="you@gmail.com">
-          </div>
-          <div class="field">
-            <label for="passwordInput">Password</label>
-            <input id="passwordInput" type="password" placeholder="Minimum 4 characters">
-          </div>
-          <div class="notice" id="authHint">Students can sign up locally for this demo. Admin demo: admin@cet.edu / admin123.</div>
-          <button id="continueBtn">Continue</button>
-          <div class="status" id="authStatus">Use the app gateway, then jump into the full guide or map.</div>
-        </div>
-      </div>
-
-      <div class="main-dashboard" id="dashboard">
-        <div class="profile-row">
-          <div class="profile">
-            <div class="avatar" id="avatar">S</div>
-            <div>
-              <strong id="userName">Student</strong>
-              <div class="role" id="userRole">Student access</div>
-            </div>
-          </div>
-          <button class="btn-ghost" id="logoutBtn">Logout</button>
-        </div>
-        <div class="status" id="welcomeStatus">Welcome back. Pick a tool to continue.</div>
-        <div class="quick-grid" style="margin-top:12px">
-          <a class="quick action-link" href="CET_Fresher_Campus_Guide.html#academic"><strong>Academic Help</strong><span>Subjects, notes and study folder access.</span></a>
-          <a class="quick action-link" href="CET_Campus_Interactive_Map_Pro.html"><strong>Campus Map</strong><span>Markers, search and route helper.</span></a>
-          <a class="quick action-link" href="CET_Fresher_Campus_Guide.html#contacts"><strong>Contacts</strong><span>Office, hostel, library and support details.</span></a>
-          <a class="quick action-link" href="CET_Fresher_Campus_Guide.html#clubs"><strong>Clubs</strong><span>Technical, arts, innovation and student groups.</span></a>
-        </div>
+      
+      <nav id="nav">
+        <button class="active" data-section="overview">Overview</button>
+        <button data-section="academics">Academics</button>
+        <button data-section="campus">Campus Map</button>
+        <button data-section="community">Community</button>
+        <button data-section="life">Student Life</button>
+        <button data-section="admin">Admin Panel</button>
+      </nav>
+      
+      <div class="user-box">
+        <strong id="userName">Student</strong>
+        <span id="userMeta">student | student@cet.edu</span>
+        <button id="logoutBtn" class="ghost">Log Out</button>
       </div>
     </aside>
-
-    <section class="grid" aria-label="Guide app features">
-      <div class="campus-strip">
-        <strong>College of Engineering Trivandrum</strong>
-        <span>The connected guide, map and student gateway now share the same campus-first visual direction.</span>
-      </div>
-      <article class="item">
-        <h3>Campus Look</h3>
-        <p class="muted">The entry page uses your campus story image, the CET building image, teal controls, coral accents and a gold academic highlight.</p>
-        <div class="chips"><span class="chip">Story</span><span class="chip">Campus</span><span class="chip">CET</span></div>
-      </article>
-      <article class="item">
-        <h3>Student Gateway</h3>
-        <p class="muted">A simple local sign-up/login flow for opening the connected CET guide tools.</p>
-        <div class="chips"><span class="chip">Signup</span><span class="chip">Login</span></div>
-      </article>
-      <article class="item">
-        <h3>Admin Shortcut</h3>
-        <p class="muted">Admin demo credentials are included so this can be tested without a backend.</p>
-        <div class="chips"><span class="chip">admin@cet.edu</span><span class="chip">admin123</span></div>
-      </article>
-    </section>
-  </main>
-</div>
-
-<script>
-(function(){
-  const USERS_KEY = "cet-guide-app-users-v1";
-  const ADMIN_CREDS = {email:"admin@cet.edu", password:"admin123"};
-  let mode = "student";
-  let users = loadUsers();
-  const els = {
-    tabs:[...document.querySelectorAll("[data-mode]")],
-    fillButtons:[...document.querySelectorAll("[data-fill]")],
-    nameField:document.getElementById("nameField"),
-    nameInput:document.getElementById("nameInput"),
-    emailInput:document.getElementById("emailInput"),
-    passwordInput:document.getElementById("passwordInput"),
-    continueBtn:document.getElementById("continueBtn"),
-    authStatus:document.getElementById("authStatus"),
-    authHint:document.getElementById("authHint"),
-    authPanel:document.getElementById("authPanel"),
-    dashboard:document.getElementById("dashboard"),
-    avatar:document.getElementById("avatar"),
-    userName:document.getElementById("userName"),
-    userRole:document.getElementById("userRole"),
-    welcomeStatus:document.getElementById("welcomeStatus"),
-    logoutBtn:document.getElementById("logoutBtn")
-  };
-
-  function loadUsers(){
-    try{
-      const saved = JSON.parse(localStorage.getItem(USERS_KEY));
-      return Array.isArray(saved) ? saved : [];
-    }catch(err){
-      return [];
-    }
-  }
-
-  function saveUsers(){
-    localStorage.setItem(USERS_KEY, JSON.stringify(users));
-  }
-
-  function setMode(nextMode){
-    mode = nextMode;
-    els.tabs.forEach(tab => tab.classList.toggle("active", tab.dataset.mode === mode));
-    els.nameField.style.display = mode === "student" ? "grid" : "none";
-    els.continueBtn.textContent = mode === "admin" ? "Login As Admin" : "Sign Up / Login";
-    els.authHint.textContent = mode === "admin"
-      ? "Admin demo credentials: admin@cet.edu / admin123."
-      : "Students are saved in this browser only. Use any email and a password with at least 4 characters.";
-    els.authStatus.textContent = "Use the app gateway, then jump into the full guide or map.";
-  }
-
-  function showDashboard(user){
-    els.authPanel.style.display = "none";
-    els.dashboard.classList.add("active");
-    els.avatar.textContent = (user.name || user.email || "C").slice(0,1).toUpperCase();
-    els.userName.textContent = user.name || user.email;
-    els.userRole.textContent = user.role === "admin" ? "Admin access" : "Student access";
-    els.welcomeStatus.textContent = user.role === "admin"
-      ? "Admin demo access active. Open the full fresher guide to edit protected sections."
-      : "Student access active. Open the guide, map, contacts or club sections.";
-  }
-
-  function authenticate(){
-    const email = els.emailInput.value.trim().toLowerCase();
-    const password = els.passwordInput.value;
-    if(!email || !password){
-      els.authStatus.textContent = "Please enter an email and password.";
-      return;
-    }
-    if(mode === "admin"){
-      if(email !== ADMIN_CREDS.email || password !== ADMIN_CREDS.password){
-        els.authStatus.textContent = "Invalid admin credentials.";
-        return;
-      }
-      showDashboard({name:"Admin", email, role:"admin"});
-      return;
-    }
-    if(password.length < 4){
-      els.authStatus.textContent = "Use at least 4 characters for the local app password.";
-      return;
-    }
-    let user = users.find(item => item.email === email);
-    if(user && user.password !== password){
-      els.authStatus.textContent = "This email already exists with a different password.";
-      return;
-    }
-    if(!user){
-      user = {name:els.nameInput.value.trim() || "CET Student", email, password, role:"student"};
-      users.push(user);
-      saveUsers();
-    }
-    showDashboard(user);
-  }
-
-  els.tabs.forEach(tab => tab.addEventListener("click", () => setMode(tab.dataset.mode)));
-  els.fillButtons.forEach(button => button.addEventListener("click", () => {
-    setMode(button.dataset.fill);
-    document.getElementById("authPanel").scrollIntoView({behavior:"smooth",block:"center"});
-  }));
-  els.continueBtn.addEventListener("click", authenticate);
-  els.passwordInput.addEventListener("keydown", event => {
-    if(event.key === "Enter") authenticate();
-  });
-  els.logoutBtn.addEventListener("click", () => {
-    els.authPanel.style.display = "block";
-    els.dashboard.classList.remove("active");
-    els.passwordInput.value = "";
-    els.authStatus.textContent = "Signed out. You can continue with another account.";
-  });
-
-  setMode("student");
-})();
-</script>
+    
+    <main class="content">
+      <header class="topbar">
+        <h1 id="pageTitle">Overview</h1>
+        <div class="top-actions">
+          <input id="globalSearch" type="search" placeholder="Search guide...">
+        </div>
+      </header>
+      
+      <!-- Global Search Results -->
+      <div id="searchResults" class="results hidden"></div>
+      
+      <!-- Sections -->
+      <!-- Overview Section -->
+      <section id="overview" class="section active">
+        <div class="home-hero">
+          <div>
+            <h2 id="welcomeLine">Welcome, Student.</h2>
+            <p>Everything you need for your transition into College of Engineering Trivandrum, organized in one place.</p>
+          </div>
+        </div>
+        
+        <div class="panel" style="margin-bottom: 14px;">
+          <h3 class="eyebrow">Your Checklist</h3>
+          <div id="checklist" class="chips"></div>
+        </div>
+        
+        <div id="featureGrid" class="grid"></div>
+      </section>
+      
+      <!-- Academics Section -->
+      <section id="academics" class="section">
+        <div class="section-head">
+          <div>
+            <h2>Academic Resources</h2>
+            <p>Access notes, subjects, and study materials for your semester.</p>
+          </div>
+        </div>
+        
+        <div class="toolbar">
+          <select id="semesterSelect"></select>
+          <a id="driveLink" href="#" target="_blank" class="link-button primary">Open Study Folder</a>
+        </div>
+        
+        <div id="semesterCards" class="grid"></div>
+      </section>
+      
+      <!-- Campus Map Section -->
+      <section id="campus" class="section">
+        <div class="campus-layout">
+          <div class="map-list">
+            <input id="locationSearch" type="search" placeholder="Search campus places...">
+            <select id="categoryFilter">
+              <option value="All">All Categories</option>
+            </select>
+            <div id="locationList" class="stack"></div>
+          </div>
+          
+          <div class="map-shell">
+            <div class="route-bar">
+              <select id="routeFrom"></select>
+              <select id="routeTo"></select>
+              <button id="routeBtn" class="primary">Draw Route</button>
+              <button id="fitBtn" class="ghost">Fit Map</button>
+            </div>
+            
+            <div id="map" class="map"></div>
+            <div id="routeSummary" class="map-summary">Select start and destination points to get walking directions.</div>
+          </div>
+        </div>
+      </section>
+      
+      <!-- Community Section -->
+      <section id="community" class="section">
+        <div class="section-head">
+          <div>
+            <h2>Clubs & Culture</h2>
+            <p>Explore technical groups, arts, and college community boards.</p>
+          </div>
+        </div>
+        
+        <div class="grid two" style="margin-bottom: 12px;">
+          <div class="panel">
+            <h3>Student Clubs</h3>
+            <p id="clubsText"></p>
+            <a id="whatsappLink" href="#" target="_blank" class="link-button primary">Join Fresher WhatsApp Group</a>
+          </div>
+          
+          <div class="panel">
+            <h3>Upcoming Events</h3>
+            <ul id="eventsList"></ul>
+          </div>
+        </div>
+        
+        <div class="panel">
+          <h3>Advice from Seniors</h3>
+          <ul id="adviceList"></ul>
+        </div>
+      </section>
+      
+      <!-- Student Life Section -->
+      <section id="life" class="section">
+        <div class="section-head">
+          <div>
+            <h2>Student Life & Facilities</h2>
+            <p>Important details about hostels, college transit, and emergency contacts.</p>
+          </div>
+        </div>
+        
+        <div class="grid" style="margin-bottom: 12px;">
+          <div class="panel">
+            <h3>Library Timing</h3>
+            <p id="libraryTiming"></p>
+            <p id="libraryNotes" class="item-meta"></p>
+          </div>
+          
+          <div class="panel">
+            <h3>Hostels</h3>
+            <p id="hostelText"></p>
+          </div>
+          
+          <div class="panel">
+            <h3>Transit</h3>
+            <p id="transportText"></p>
+          </div>
+        </div>
+        
+        <div class="panel">
+          <h3>Official Contacts</h3>
+          <p id="contactsText"></p>
+        </div>
+      </section>
+      
+      <!-- Admin Panel Section -->
+      <section id="admin" class="section">
+        <div id="adminLocked" class="panel locked">
+          <p>Admin access required. Please sign in with an administrator account to edit details.</p>
+        </div>
+        
+        <div id="adminTools" class="hidden">
+          <div class="section-head">
+            <div>
+              <h2>Administrator Panel</h2>
+              <p>Manage campus guide contents and map locations directly.</p>
+            </div>
+            <div id="adminStatus" class="status"></div>
+          </div>
+          
+          <div class="grid two">
+            <!-- Guide Info Editor -->
+            <div class="panel">
+              <h3>Edit Guide Information</h3>
+              <div class="field">
+                <label>Library Timing
+                  <textarea id="editLibraryTiming"></textarea>
+                </label>
+              </div>
+              <div class="field">
+                <label>Library Notes
+                  <textarea id="editLibraryNotes"></textarea>
+                </label>
+              </div>
+              <div class="field">
+                <label>Faculty Contacts
+                  <textarea id="editFaculty"></textarea>
+                </label>
+              </div>
+              <div class="field">
+                <label>Clubs & Cultural Details
+                  <textarea id="editClubs"></textarea>
+                </label>
+              </div>
+              <button id="saveGuideBtn" class="primary">Save Guide Info</button>
+            </div>
+            
+            <!-- Location Editor -->
+            <div class="panel">
+              <h3>Edit Map Locations</h3>
+              <div class="field">
+                <label>Location Name
+                  <input id="editLocationName">
+                </label>
+              </div>
+              <div class="field">
+                <label>Category
+                  <input id="editLocationCategory">
+                </label>
+              </div>
+              <div class="grid-2">
+                <div class="field">
+                  <label>Latitude
+                    <input id="editLocationLat" type="number" step="any">
+                  </label>
+                </div>
+                <div class="field">
+                  <label>Longitude
+                    <input id="editLocationLng" type="number" step="any">
+                  </label>
+                </div>
+              </div>
+              <div class="field">
+                <label>Description Note
+                  <textarea id="editLocationNote"></textarea>
+                </label>
+              </div>
+              <div style="display: flex; gap: 8px;">
+                <button id="saveLocationBtn" class="primary">Save Location</button>
+                <button id="newLocationBtn" class="ghost">Add New</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+  <script src="api-client.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>

@@ -8,7 +8,6 @@ const state = {
   markers: new Map(),
   routeLine: null
 };
-
 const $ = id => document.getElementById(id);
 const pageTitles = {
   overview: "Overview",
@@ -26,16 +25,13 @@ const featureCards = [
   ["Admin", "Protected editing for guide and map content.", "admin"],
   ["Export", "Download the current guide data as JSON.", "export"]
 ];
-
 function escapeHtml(value){
   return String(value ?? "").replace(/[&<>"']/g, ch => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[ch]));
 }
-
 function setStatus(message, error=false){
   $("authStatus").textContent = message || "";
   $("authStatus").style.color = error ? "var(--danger)" : "var(--muted)";
 }
-
 function setAuthMode(mode){
   state.authMode = mode;
   document.querySelectorAll("[data-auth-mode]").forEach(btn => btn.classList.toggle("active", btn.dataset.authMode === mode));
@@ -47,7 +43,6 @@ function setAuthMode(mode){
   $("roleField").classList.toggle("hidden", !signup);
   $("adminCodeField").classList.toggle("hidden", !signup);
 }
-
 async function authenticate(event){
   event.preventDefault();
   setStatus("Checking account...");
@@ -67,7 +62,6 @@ async function authenticate(event){
     setStatus(err.message, true);
   }
 }
-
 async function createDemo(){
   const suffix = Math.floor(Math.random() * 100000);
   $("nameInput").value = "CET Fresher";
@@ -76,7 +70,6 @@ async function createDemo(){
   setAuthMode("signup");
   await authenticate(new Event("submit"));
 }
-
 async function enterApp(){
   $("authView").classList.add("hidden");
   $("appView").classList.remove("hidden");
@@ -87,13 +80,11 @@ async function enterApp(){
   renderAll();
   showSection("overview");
 }
-
 async function loadData(){
   const [guide, locations] = await Promise.all([api.guide(), api.locations()]);
   state.guide = guide;
   state.locations = locations;
 }
-
 function renderAll(){
   renderFeatureGrid();
   renderChecklist();
@@ -103,7 +94,6 @@ function renderAll(){
   renderLife();
   renderAdmin();
 }
-
 function renderFeatureGrid(){
   $("featureGrid").innerHTML = featureCards.map(([title, text, target]) => `
     <button class="feature" data-feature="${target}">
@@ -116,11 +106,9 @@ function renderFeatureGrid(){
     showSection(card.dataset.feature);
   }));
 }
-
 function renderChecklist(){
   $("checklist").innerHTML = (state.guide.checklist || []).map(item => `<span class="chip">${escapeHtml(item)}</span>`).join("");
 }
-
 function renderAcademics(){
   const semesters = Object.keys(state.guide.academic || {});
   $("semesterSelect").innerHTML = semesters.map(sem => `<option>${escapeHtml(sem)}</option>`).join("");
@@ -131,7 +119,6 @@ function renderAcademics(){
     return `<article class="item"><h3>${escapeHtml(sem)}</h3><div class="chips">${subjects}</div><p class="item-meta">${escapeHtml(info.notes || "")}</p></article>`;
   }).join("");
 }
-
 function renderCampus(){
   const categories = ["All", ...new Set(state.locations.map(p => p.category || "Other"))].sort();
   const previous = $("categoryFilter").value || "All";
@@ -140,7 +127,6 @@ function renderCampus(){
   renderRouteOptions();
   if(state.map) renderMapMarkers();
 }
-
 function filteredLocations(){
   const query = $("locationSearch").value.trim().toLowerCase();
   const category = $("categoryFilter").value || "All";
@@ -150,7 +136,6 @@ function filteredLocations(){
     return inCategory && (!query || text.includes(query));
   });
 }
-
 function renderLocationList(){
   const places = filteredLocations();
   $("locationList").innerHTML = places.map(place => `
@@ -161,7 +146,6 @@ function renderLocationList(){
   `).join("") || `<p class="item-meta">No matching places.</p>`;
   document.querySelectorAll("[data-place]").forEach(card => card.addEventListener("click", () => selectLocation(card.dataset.place, true)));
 }
-
 function renderRouteOptions(){
   const options = state.locations.map(place => `<option value="${escapeHtml(place.id)}">${escapeHtml(place.name)}</option>`).join("");
   $("routeFrom").innerHTML = options;
@@ -169,7 +153,6 @@ function renderRouteOptions(){
   $("routeFrom").value = state.locations[0]?.id || "";
   $("routeTo").value = state.locations[1]?.id || state.locations[0]?.id || "";
 }
-
 function initMap(){
   if(state.map) return;
   if(!window.L){
@@ -191,7 +174,6 @@ function initMap(){
   renderMapMarkers();
   setTimeout(() => state.map.invalidateSize(), 80);
 }
-
 function renderMapMarkers(){
   if(!window.L && !state.map) return renderStaticMap();
   if(!state.map) return;
@@ -203,14 +185,12 @@ function renderMapMarkers(){
     state.markers.set(place.id, marker);
   });
 }
-
 function mapPoint(place){
   const bounds = {minLat:8.5404036, maxLat:8.5480437, minLng:76.9011804, maxLng:76.9083942};
   const x = ((place.lng - bounds.minLng) / (bounds.maxLng - bounds.minLng)) * 82 + 9;
   const y = (1 - ((place.lat - bounds.minLat) / (bounds.maxLat - bounds.minLat))) * 76 + 12;
   return {x: Math.max(6, Math.min(94, x)), y: Math.max(8, Math.min(92, y))};
 }
-
 function renderStaticMap(route){
   const mapEl = $("map");
   const places = filteredLocations();
@@ -234,7 +214,6 @@ function renderStaticMap(route){
   }
   document.querySelectorAll("[data-static-place]").forEach(pin => pin.addEventListener("click", () => selectLocation(pin.dataset.staticPlace, false)));
 }
-
 function selectLocation(id, openPopup){
   state.selectedLocationId = id;
   const place = state.locations.find(item => item.id === id);
@@ -246,7 +225,6 @@ function selectLocation(id, openPopup){
     if(openPopup && marker) marker.openPopup();
   }
 }
-
 function fillLocationEditor(place){
   if(!place) return;
   $("editLocationName").value = place.name || "";
@@ -255,7 +233,6 @@ function fillLocationEditor(place){
   $("editLocationLng").value = place.lng || "";
   $("editLocationNote").value = place.note || "";
 }
-
 function fitMap(){
   initMap();
   if(!window.L) return renderStaticMap();
@@ -263,7 +240,6 @@ function fitMap(){
   if(!places.length) return;
   state.map.fitBounds(places.map(p => [p.lat, p.lng]), {padding:[35,35]});
 }
-
 function drawRoute(){
   initMap();
   const from = state.locations.find(p => p.id === $("routeFrom").value);
@@ -282,7 +258,6 @@ function drawRoute(){
   const meters = distance(from, to);
   $("routeSummary").textContent = `${from.name} to ${to.name}: about ${formatDistance(meters)} and ${Math.max(1, Math.round(meters / 80))} min walking.`;
 }
-
 function distance(a,b){
   const rad = Math.PI / 180;
   const dLat = (b.lat - a.lat) * rad;
@@ -292,11 +267,9 @@ function distance(a,b){
   const h = Math.sin(dLat/2)**2 + Math.cos(lat1) * Math.cos(lat2) * Math.sin(dLng/2)**2;
   return 6371000 * 2 * Math.atan2(Math.sqrt(h), Math.sqrt(1-h));
 }
-
 function formatDistance(meters){
   return meters >= 1000 ? `${(meters / 1000).toFixed(2)} km` : `${Math.round(meters)} m`;
 }
-
 function renderCommunity(){
   $("clubsText").textContent = state.guide.clubs || "";
   $("eventsList").innerHTML = (state.guide.events || []).map(item => `<li>${escapeHtml(item)}</li>`).join("");
@@ -304,7 +277,6 @@ function renderCommunity(){
   $("whatsappLink").classList.toggle("hidden", !state.guide.whatsapp);
   $("whatsappLink").href = state.guide.whatsapp || "#";
 }
-
 function renderLife(){
   $("libraryTiming").textContent = state.guide.libraryTiming || "";
   $("libraryNotes").textContent = state.guide.libraryNotes || "";
@@ -312,7 +284,6 @@ function renderLife(){
   $("hostelText").textContent = state.guide.hostel || "";
   $("contactsText").textContent = state.guide.contacts || "";
 }
-
 function renderAdmin(){
   const admin = state.user?.role === "admin";
   $("adminLocked").classList.toggle("hidden", admin);
@@ -325,7 +296,6 @@ function renderAdmin(){
   fillLocationEditor(state.locations[0]);
   if(!state.selectedLocationId && state.locations[0]) state.selectedLocationId = state.locations[0].id;
 }
-
 async function saveGuide(){
   state.guide = {
     ...state.guide,
@@ -338,7 +308,6 @@ async function saveGuide(){
   renderAll();
   $("adminStatus").textContent = "Guide saved.";
 }
-
 async function saveLocation(){
   const existing = state.locations.find(item => item.id === state.selectedLocationId);
   const name = $("editLocationName").value.trim();
@@ -356,7 +325,6 @@ async function saveLocation(){
   renderAll();
   $("adminStatus").textContent = "Location saved.";
 }
-
 function newLocation(){
   state.selectedLocationId = "";
   $("editLocationName").value = "New Location";
@@ -365,7 +333,6 @@ function newLocation(){
   $("editLocationLng").value = "76.904301";
   $("editLocationNote").value = "";
 }
-
 function showSection(id){
   document.querySelectorAll(".section").forEach(section => section.classList.toggle("active", section.id === id));
   document.querySelectorAll("#nav button").forEach(button => button.classList.toggle("active", button.dataset.section === id));
@@ -375,7 +342,6 @@ function showSection(id){
     setTimeout(() => state.map?.invalidateSize(), 120);
   }
 }
-
 function renderSearch(){
   const query = $("globalSearch").value.trim().toLowerCase();
   const rows = [];
@@ -393,7 +359,6 @@ function renderSearch(){
   $("searchResults").innerHTML = rows.map(section => `<button class="result-row" data-result="${section}">${pageTitles[section]} matches "${escapeHtml(query)}"</button>`).join("");
   document.querySelectorAll("[data-result]").forEach(row => row.addEventListener("click", () => showSection(row.dataset.result)));
 }
-
 function exportGuide(){
   const blob = new Blob([JSON.stringify({guide:state.guide, locations:state.locations}, null, 2)], {type:"application/json"});
   const url = URL.createObjectURL(blob);
@@ -403,14 +368,12 @@ function exportGuide(){
   link.click();
   URL.revokeObjectURL(url);
 }
-
 async function logout(){
   await api.logout();
   state.user = null;
   $("appView").classList.add("hidden");
   $("authView").classList.remove("hidden");
 }
-
 function bindEvents(){
   document.querySelectorAll("[data-auth-mode]").forEach(btn => btn.addEventListener("click", () => setAuthMode(btn.dataset.authMode)));
   $("authForm").addEventListener("submit", authenticate);
@@ -427,7 +390,6 @@ function bindEvents(){
   $("saveLocationBtn").addEventListener("click", saveLocation);
   $("newLocationBtn").addEventListener("click", newLocation);
 }
-
 async function start(){
   bindEvents();
   setAuthMode("login");
@@ -441,5 +403,4 @@ async function start(){
     setStatus("Start the backend server to use the app.", true);
   }
 }
-
 start();

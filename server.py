@@ -112,3 +112,427 @@ ul{margin:0;padding-left:20px;color:var(--muted);line-height:1.7}
   .home-hero h2{font-size:31px}
   nav{grid-template-columns:1fr 1fr}
 }
+import http.server
+import socketserver
+import json
+import os
+import urllib.parse
+import hmac
+import hashlib
+import time
+import base64
+import uuid
+PORT = 3000
+ROOT = os.path.dirname(os.path.abspath(__file__))
+PUBLIC_DIR = os.path.join(ROOT, "public")
+DATA_FILE = os.path.join(ROOT, "data", "cet-data.json")
+USERS_FILE = os.path.join(ROOT, "data", "users.json")
+SECRET = b"cet-guide-demo-secret"
+MIME = {
+    ".html": "text/html; charset=utf-8",
+    ".css": "text/css; charset=utf-8",
+    ".js": "application/javascript; charset=utf-8",
+    ".json": "application/json; charset=utf-8",
+    ".png": "image/png",
+    ".jpg": "image/jpeg",
+    ".jpeg": "image/jpeg",
+    ".webp": "image/webp",
+    ".svg": "image/svg+xml"
+}
+def read_json(path, fallback):
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except Exception:
+        return fallback
+def write_json(path, data):
+    try:
+        os.makedirs(os.path.dirname(path), exist_ok=True)
+        with open(path, "w", encoding="utf-8") as f:
+            json.dump(data, f, indent=2)
+    except Exception as e:
+        print("Error writing JSON:", e)
+def hash_password(password, salt=None):
+    if salt is None:
+        salt = os.urandom(16).hex()
+    dk = hashlib.pbkdf2_hmac('sha256', password.encode('utf-8'), salt.encode('utf-8'), 100000, dklen=32)
+    return f"{salt}:{dk.hex()}"
+def verify_password(password, stored):
+    if not stored or ":" not in stored:
+        return False
+    salt, hash_val = stored.split(":")
+    next_hash = hash_password(password, salt).split(":")[1]
+    return hmac.compare_digest(hash_val, next_hash)
+def make_token(user):
+    payload_dict = {
+        "email": user["email"],
+        "role": user["role"],
+        "exp": int(time.time() * 1000) + 1000 * 60 * 60 * 8
+    }
+    payload_str = json.dumps(payload_dict)
+    payload_b64 = base64.urlsafe_b64encode(payload_str.encode('utf-8')).decode('utf-8').rstrip('=')
+    sig = hmac.new(SECRET, payload_b64.encode('utf-8'), hashlib.sha256).digest()
+    sig_b64 = base64.urlsafe_b64encode(sig).decode('utf-8').rstrip('=')
+    return f"{payload_b64}.{sig_b64}"
+def verify_token(token):
+    if not token or "." not in token:
+        return None
+    parts = token.split(".")
+    if len(parts) != 2:
+        return None
+    payload, sig = parts
+    # Re-calculate signature
+    expected_sig = hmac.new(SECRET, payload.encode('utf-8'), hashlib.sha256).digest()
+    expected_sig_b64 = base64.urlsafe_b64encode(expected_sig).decode('utf-8').rstrip('=')
+    if not hmac.compare_digest(sig, expected_sig_b64):
+        return None
+    try:
+        # Add padding back
+        rem = len(payload) % 4
+        if rem > 0:
+            payload += "=" * (4 - rem)
+        data = json.loads(base64.urlsafe_b64decode(payload.encode('utf-8')).decode('utf-8'))
+        if data["exp"] < int(time.time() * 1000):
+            return None
+        return data
+    except Exception:
+        return None
+class Handler(http.server.BaseHTTPRequestHandler):
+    def end_headers(self):
+        # Allow CORS preflight and credentials
+        self.send_header("Access-Control-Allow-Origin", self.headers.get("Origin", "*"))
+        self.send_header("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS")
+        self.send_header("Access-Control-Allow-Headers", "content-type,authorization,cookie")
+        self.send_header("Access-Control-Allow-Credentials", "true")
+        super().end_headers()
+    def do_OPTIONS(self):
+        self.send_response(204)
+        self.end_headers()
+    def send_json(self, status, data, headers=None):
+        self.send_response(status)
+        self.send_header("Content-Type", MIME[".json"])
+        if headers:
+            for k, v in headers.items():
+                self.send_header(k, v)
+        self.end_headers()
+        self.wfile.write(json.dumps(data).encode('utf-8'))
+    def get_cookie(self, name):
+        cookie_header = self.headers.get("Cookie", "")
+        for item in cookie_header.split(";"):
+            item = item.strip()
+            if "=" in item:
+                k, v = item.split("=", 1)
+                if k == name:
+                    return urllib.parse.unquote(v)
+        return None
+    def read_body(self):
+        length = int(self.headers.get('Content-Length', 0))
+        if length == 0:
+            return {}
+        body = self.rfile.read(length).decode('utf-8')
+        try:
+            return json.loads(body)
+        except Exception:
+            return {}
+    def do_GET(self):
+        url = urllib.parse.urlparse(self.path)
+        path_str = url.path
+        
+        if path_str.startswith("/api/"):
+            self.handle_api_get(path_str)
+        else:
+            self.serve_static(path_str)
+    def do_POST(self):
+        url = urllib.parse.urlparse(self.path)
+        path_str = url.path
+        if path_str.startswith("/api/"):
+            self.handle_api_post(path_str)
+        else:
+            self.send_json(404, {"error": "Not found"})
+    def do_PUT(self):
+        url = urllib.parse.urlparse(self.path)
+        path_str = url.path
+        if path_str.startswith("/api/"):
+            self.handle_api_put(path_str)
+        else:
+            self.send_json(404, {"error": "Not found"})
+    def do_DELETE(self):
+        url = urllib.parse.urlparse(self.path)
+        path_str = url.path
+        if path_str.startswith("/api/"):
+            self.handle_api_delete(path_str)
+        else:
+            self.send_json(404, {"error": "Not found"})
+    def serve_static(self, url_path):
+        if url_path == "/":
+            url_path = "/index.html"
+        
+        # Resolve target path in public/
+        clean_path = url_path.lstrip("/")
+        file_path = os.path.abspath(os.path.join(PUBLIC_DIR, clean_path))
+        
+        if not file_path.startswith(PUBLIC_DIR):
+            self.send_response(403)
+            self.end_headers()
+            self.wfile.write(b"Forbidden")
+            return
+        if not os.path.exists(file_path):
+            # Fallback to root directory
+            fallback_path = os.path.abspath(os.path.join(ROOT, os.path.basename(clean_path)))
+            if os.path.exists(fallback_path) and fallback_path.startswith(ROOT):
+                file_path = fallback_path
+            else:
+                self.send_response(404)
+                self.end_headers()
+                self.wfile.write(b"Not found")
+                return
+        ext = os.path.splitext(file_path)[1].lower()
+        mime_type = MIME.get(ext, "application/octet-stream")
+        
+        try:
+            with open(file_path, "rb") as f:
+                content = f.read()
+            self.send_response(200)
+            self.send_header("Content-Type", mime_type)
+            self.end_headers()
+            self.wfile.write(content)
+        except Exception:
+            self.send_response(500)
+            self.end_headers()
+            self.wfile.write(b"Internal Server Error")
+    def handle_api_get(self, path_str):
+        data = read_json(DATA_FILE, {})
+        
+        if path_str == "/api/health":
+            self.send_json(200, {"ok": True, "service": "cet-guide-backend-python", "time": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())})
+            return
+            
+        if path_str == "/api/session":
+            user_data = verify_token(self.get_cookie("token"))
+            if not user_data:
+                self.send_json(401, {"error": "No active session."})
+                return
+            if user_data["email"] == "admin@cet.edu":
+                self.send_json(200, {"user": {"name": "CET Admin", "email": user_data["email"], "role": "admin"}})
+                return
+            users = read_json(USERS_FILE, [])
+            user = next((u for u in users if u["email"] == user_data["email"]), None)
+            if not user:
+                self.send_json(401, {"error": "User not found."})
+                return
+            self.send_json(200, {"user": {"name": user["name"], "email": user["email"], "role": user["role"]}})
+            return
+        if path_str == "/api/guide":
+            guide_data = data.get("guide", {
+                "checklist": ["Report to Main Block", "Verify certificates", "Get ID card", "Visit CCF"],
+                "academic": {
+                    "S1": { "subjects": ["Calculus", "Engineering Physics", "Engineering Mechanics"], "notes": "First semester resources" },
+                    "S2": { "subjects": ["Vector Calculus", "Engineering Chemistry", "Basic Electrical"], "notes": "Second semester resources" },
+                    "S3": { "subjects": ["Discrete Math", "Data Structures", "Logic Design"], "notes": "Third semester CS resources" },
+                    "S4": { "subjects": ["Graph Theory", "Computer Org", "Operating Systems"], "notes": "Fourth semester CS resources" }
+                },
+                "driveLink": "https://drive.google.com/drive/folders/cet-study-drive",
+                "clubs": "Technical clubs include IEEE, ISTE, IEEE Computer Society. Arts club organizes annual Sargam festival.",
+                "events": ["Fresher Induction Day - Sept 1", "Sargam Festival - Oct 12", "Dhishna Tech Fest - Nov 5"],
+                "advice": ["Connect with seniors early", "Don't skip workshops", "Visit the library regularly"],
+                "whatsapp": "https://chat.whatsapp.com/cet-freshers-2026",
+                "libraryTiming": "9:00 AM - 7:00 PM on weekdays",
+                "libraryNotes": "Digital library access is available. Take library card from office.",
+                "transport": "College buses cover Sreekaryam, Kazhakootam, Thampanoor, and Nedumangad routes.",
+                "hostel": "Men's hostel and Ladies hostel admissions start after first allotment.",
+                "contacts": "Principal: principal@cet.ac.in | Hostel warden: hostel@cet.ac.in",
+                "faculty": "CS Advisor: Dr. Ajeesh Ramanujan"
+            })
+            self.send_json(200, guide_data)
+            return
+        if path_str == "/api/profile":
+            user_data = verify_token(self.get_cookie("token"))
+            if not user_data:
+                self.send_json(401, {"error": "Unauthorized"})
+                return
+            users = read_json(USERS_FILE, [])
+            user = next((u for u in users if u["email"] == user_data["email"]), None) or {"name": "CET User", "email": user_data["email"], "role": user_data["role"]}
+            self.send_json(200, {
+                "name": user.get("name", ""),
+                "email": user.get("email", ""),
+                "role": user.get("role", ""),
+                "department": user.get("department", ""),
+                "phone": user.get("phone", "")
+            })
+            return
+        if path_str == "/api/cet":
+            self.send_json(200, data)
+            return
+        if path_str == "/api/contacts":
+            self.send_json(200, data.get("contacts", []))
+            return
+        if path_str == "/api/hods":
+            self.send_json(200, data.get("hods", []))
+            return
+        if path_str == "/api/facilities":
+            self.send_json(200, data.get("facilities", []))
+            return
+        if path_str == "/api/locations":
+            self.send_json(200, data.get("locations", []))
+            return
+        if path_str == "/api/style-guide":
+            self.send_json(200, {"brand": data.get("brand"), "roles": data.get("roles"), "meta": data.get("meta")})
+            return
+        self.send_json(404, {"error": "API route not found."})
+    def handle_api_post(self, path_str):
+        data = read_json(DATA_FILE, {})
+        body = self.read_body()
+        
+        if path_str == "/api/auth/signup" or path_str == "/api/auth/register":
+            email = str(body.get("email", "")).strip().lower()
+            password = str(body.get("password", ""))
+            name = str(body.get("name", "Student")).strip()[:80]
+            role = str(body.get("role", "student")).strip().lower()
+            admin_code = str(body.get("adminCode", "")).strip()
+            if "@" not in email or len(password) < 4:
+                self.send_json(400, {"error": "Valid email and 4+ character password required."})
+                return
+            if role == "admin" and admin_code != "admin123":
+                self.send_json(403, {"error": "Incorrect admin code."})
+                return
+            users = read_json(USERS_FILE, [])
+            if any(u["email"] == email for u in users):
+                self.send_json(409, {"error": "User already exists."})
+                return
+            user = {
+                "id": str(uuid.uuid4()),
+                "name": name,
+                "email": email,
+                "role": role,
+                "passwordHash": hash_password(password),
+                "createdAt": int(time.time() * 1000)
+            }
+            users.append(user)
+            write_json(USERS_FILE, users)
+            token = make_token(user)
+            self.send_json(201, {"token": token, "user": {"name": name, "email": email, "role": role}}, {
+                "Set-Cookie": f"token={token}; Path=/; HttpOnly; SameSite=Strict"
+            })
+            return
+        if path_str == "/api/auth/login":
+            email = str(body.get("email", "")).strip().lower()
+            password = str(body.get("password", ""))
+            
+            if email == "admin@cet.edu" and password == "admin123":
+                user = {"name": "CET Admin", "email": email, "role": "admin"}
+                token = make_token(user)
+                self.send_json(200, {"token": token, "user": user}, {
+                    "Set-Cookie": f"token={token}; Path=/; HttpOnly; SameSite=Strict"
+                })
+                return
+            users = read_json(USERS_FILE, [])
+            user = next((u for u in users if u["email"] == email), None)
+            if not user or not verify_password(password, user.get("passwordHash", "")):
+                self.send_json(401, {"error": "Invalid credentials."})
+                return
+            token = make_token(user)
+            self.send_json(200, {"token": token, "user": {"name": user["name"], "email": user["email"], "role": user["role"]}}, {
+                "Set-Cookie": f"token={token}; Path=/; HttpOnly; SameSite=Strict"
+            })
+            return
+        if path_str == "/api/auth/logout":
+            self.send_json(200, {"ok": True}, {
+                "Set-Cookie": "token=; Path=/; HttpOnly; SameSite=Strict; Max-Age=0"
+            })
+            return
+        if path_str == "/api/guide":
+            data["guide"] = body
+            write_json(DATA_FILE, data)
+            self.send_json(200, data["guide"])
+            return
+        if path_str == "/api/profile":
+            user_data = verify_token(self.get_cookie("token"))
+            if not user_data:
+                self.send_json(401, {"error": "Unauthorized"})
+                return
+            users = read_json(USERS_FILE, [])
+            for u in users:
+                if u["email"] == user_data["email"]:
+                    u["name"] = body.get("name", u["name"])
+                    u["department"] = body.get("department", "")
+                    u["phone"] = body.get("phone", "")
+                    break
+            write_json(USERS_FILE, users)
+            self.send_json(200, {"ok": True})
+            return
+        if path_str == "/api/locations":
+            lat = float(body.get("lat", 0))
+            lng = float(body.get("lng", 0))
+            name = body.get("name")
+            if not name or lat == 0 or lng == 0:
+                self.send_json(400, {"error": "Location name, lat and lng are required."})
+                return
+            loc = {
+                "id": body.get("id", str(uuid.uuid4())),
+                "name": str(name)[:120],
+                "category": str(body.get("category", "Other"))[:40],
+                "icon": str(body.get("icon", body.get("category", "Other")))[:40],
+                "lat": lat,
+                "lng": lng,
+                "note": str(body.get("note", ""))[:600],
+                "faculty": str(body.get("faculty", ""))[:180],
+                "clubDetails": str(body.get("clubDetails", ""))[:400],
+                "updatedAt": int(time.time() * 1000)
+            }
+            data["locations"] = [loc] + data.get("locations", [])
+            write_json(DATA_FILE, data)
+            self.send_json(201, loc)
+            return
+        self.send_json(404, {"error": "API route not found."})
+    def handle_api_put(self, path_str):
+        data = read_json(DATA_FILE, {})
+        body = self.read_body()
+        if path_str.startswith("/api/locations/"):
+            loc_id = path_str.split("/")[-1]
+            lat = float(body.get("lat", 0))
+            lng = float(body.get("lng", 0))
+            name = body.get("name")
+            if not name or lat == 0 or lng == 0:
+                self.send_json(400, {"error": "Location name, lat and lng are required."})
+                return
+            loc = {
+                "id": loc_id,
+                "name": str(name)[:120],
+                "category": str(body.get("category", "Other"))[:40],
+                "icon": str(body.get("icon", body.get("category", "Other")))[:40],
+                "lat": lat,
+                "lng": lng,
+                "note": str(body.get("note", ""))[:600],
+                "faculty": str(body.get("faculty", ""))[:180],
+                "clubDetails": str(body.get("clubDetails", ""))[:400],
+                "updatedAt": int(time.time() * 1000)
+            }
+            locs = data.get("locations", [])
+            for i, item in enumerate(locs):
+                if item["id"] == loc_id:
+                    locs[i] = loc
+                    break
+            else:
+                locs.append(loc)
+            data["locations"] = locs
+            write_json(DATA_FILE, data)
+            self.send_json(200, loc)
+            return
+        self.send_json(404, {"error": "API route not found."})
+    def handle_api_delete(self, path_str):
+        data = read_json(DATA_FILE, {})
+        if path_str.startswith("/api/locations/"):
+            loc_id = path_str.split("/")[-1]
+            locs = data.get("locations", [])
+            data["locations"] = [item for item in locs if item["id"] != loc_id]
+            write_json(DATA_FILE, data)
+            self.send_json(200, {"ok": True})
+            return
+        self.send_json(404, {"error": "API route not found."})
+if __name__ == "__main__":
+    with socketserver.TCPServer(("", PORT), Handler) as httpd:
+        print(f"CET Guide running (Python) at http://localhost:{PORT}")
+        try:
+            httpd.serve_forever()
+        except KeyboardInterrupt:
+            pass
